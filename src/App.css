@@ -1,3 +1,7 @@
+/* ==========================================================================
+   Global / Page Shell
+   ========================================================================== */
+
 .parent {
   min-height: 100svh;
   background:
@@ -5,6 +9,89 @@
     var(--bg);
   color: var(--text);
 }
+
+/* Respect the OS-level motion preference: shrink every animation and
+   transition to effectively nothing rather than disabling them ad hoc,
+   so this stays a single source of truth as more motion gets added. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Animation Keyframes
+   ========================================================================== */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fill-bar {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--level);
+  }
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: var(--shadow), 0 0 0 0 rgba(245, 189, 79, 0.35);
+  }
+  50% {
+    box-shadow: var(--shadow), 0 0 0 6px rgba(245, 189, 79, 0);
+  }
+}
+
+/* ==========================================================================
+   Header / Navigation
+   ========================================================================== */
 
 .header {
   position: sticky;
@@ -42,6 +129,11 @@
   border: 1px solid rgba(199, 244, 100, 0.4);
   border-radius: 50%;
   background: #ffffff;
+  transition: transform 300ms ease;
+}
+
+.logo-name:hover .logo {
+  transform: rotate(-8deg) scale(1.06);
 }
 
 .logo img {
@@ -105,6 +197,10 @@
   background: transparent;
 }
 
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+
 .section.hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
@@ -126,6 +222,7 @@
   font-size: 0.82rem;
   font-weight: 900;
   text-transform: uppercase;
+  animation: fade-up 700ms ease-out 60ms both;
 }
 
 .info-sec h1 {
@@ -135,6 +232,7 @@
   font-size: 4.25rem;
   line-height: 1.04;
   font-weight: 900;
+  animation: fade-up 700ms ease-out 150ms both;
 }
 
 .hero-copy {
@@ -142,6 +240,7 @@
   margin-top: 24px;
   color: var(--muted);
   font-size: 1.16rem;
+  animation: fade-up 700ms ease-out 240ms both;
 }
 
 .role {
@@ -149,6 +248,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 28px;
+  animation: fade-up 700ms ease-out 330ms both;
 }
 
 .role span,
@@ -173,6 +273,10 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 34px;
+}
+
+.hero-actions {
+  animation: fade-up 700ms ease-out 420ms both;
 }
 
 .learn-more,
@@ -233,6 +337,17 @@
   border-color: rgba(88, 214, 209, 0.55);
 }
 
+.learn-more:active,
+.btn-project:active,
+.c-submit:active,
+.btn-resume:active,
+.copy-button:active,
+.resume-action:active,
+.project-actions a:active,
+.btn-more:active {
+  transform: translateY(0) scale(0.97);
+}
+
 .v-container {
   display: flex;
   align-items: center;
@@ -242,6 +357,7 @@
 
 .home.hero-visual {
   position: relative;
+  animation: fade-in-scale 800ms ease-out 200ms both;
 }
 
 .portrait-shell {
@@ -259,6 +375,11 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+  transition: transform 500ms ease;
+}
+
+.portrait-shell:hover img {
+  transform: scale(1.05);
 }
 
 .availability {
@@ -274,12 +395,20 @@
   color: var(--text-strong);
   background: rgba(16, 17, 19, 0.9);
   box-shadow: var(--shadow);
+  animation:
+    fade-up 700ms ease-out 500ms both,
+    pulse-glow 2.6s ease-in-out 1.2s infinite;
 }
 
 .availability span {
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* ==========================================================================
+   Shared Section / Container Utilities
+   (used across About, Projects, and Contact sections)
+   ========================================================================== */
 
 .about,
 .my-projects,
@@ -315,6 +444,10 @@
   margin-top: 16px;
   color: var(--muted);
 }
+
+/* ==========================================================================
+   About Section
+   ========================================================================== */
 
 .know-me {
   display: grid;
@@ -375,6 +508,10 @@
   list-style: none;
 }
 
+/* ==========================================================================
+   Skills Section
+   ========================================================================== */
+
 .skills {
   display: grid;
   grid-template-rows: 0.7fr 1.3fr;
@@ -390,7 +527,7 @@
 
 .skill-grid {
   display: grid;
-  grid-template-columns: repeat(auto, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 15px;
 }
 
@@ -406,6 +543,14 @@
 
 .skill-item {
   padding: 18px;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(88, 214, 209, 0.45);
 }
 
 .skill-topline {
@@ -439,6 +584,7 @@
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--accent), var(--cyan));
+  animation: fill-bar 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .skill-item p {
@@ -446,6 +592,35 @@
   color: var(--muted);
   font-size: 0.92rem;
 }
+
+/* Light stagger so the bars don't all fill in perfect unison */
+.skill-item:nth-child(1) .skill-track span {
+  animation-delay: 60ms;
+}
+
+.skill-item:nth-child(2) .skill-track span {
+  animation-delay: 160ms;
+}
+
+.skill-item:nth-child(3) .skill-track span {
+  animation-delay: 260ms;
+}
+
+.skill-item:nth-child(4) .skill-track span {
+  animation-delay: 360ms;
+}
+
+.skill-item:nth-child(5) .skill-track span {
+  animation-delay: 460ms;
+}
+
+.skill-item:nth-child(6) .skill-track span {
+  animation-delay: 560ms;
+}
+
+/* ==========================================================================
+   Projects Section
+   ========================================================================== */
 
 .p-container {
   display: grid;
@@ -479,6 +654,11 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  transition: transform 450ms ease;
+}
+
+.project-card:hover .screen img {
+  transform: scale(1.07);
 }
 
 .description {
@@ -513,6 +693,10 @@
   margin-top: auto;
 }
 
+/* ==========================================================================
+   Project Detail Modal
+   ========================================================================== */
+
 .project-modal {
   position: fixed;
   inset: 0;
@@ -522,6 +706,7 @@
   justify-content: center;
   padding: 22px;
   background: rgba(5, 6, 7, 0.75);
+  animation: modal-fade-in 220ms ease-out both;
 
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -534,6 +719,7 @@
   overflow: auto;
   padding: 24px;
   text-align: left;
+  animation: dialog-pop-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .project-dialog img {
@@ -564,6 +750,10 @@
   background: var(--surface-2);
   cursor: pointer;
 }
+
+/* ==========================================================================
+   Contact Section
+   ========================================================================== */
 
 .f-container {
   display: grid;
@@ -660,6 +850,11 @@ textarea:focus {
   justify-content: center;
 }
 
+/* ==========================================================================
+   Social Icons
+   (shared by the contact section and the footer)
+   ========================================================================== */
+
 .footer-socials {
   display: flex;
   flex-wrap: wrap;
@@ -693,6 +888,10 @@ textarea:focus {
   height: 20px;
   filter: invert(1);
 }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 
 .footer {
   padding: 44px 24px 28px;
@@ -729,6 +928,10 @@ textarea:focus {
   text-align: left;
 }
 
+/* ==========================================================================
+   Back-to-Top Button
+   ========================================================================== */
+
 .back-top {
   position: fixed;
   right: 22px;
@@ -757,6 +960,10 @@ textarea:focus {
   pointer-events: auto;
   transform: translateY(0);
 }
+
+/* ==========================================================================
+   Resume Overlay
+   ========================================================================== */
 
 .resume-container {
   position: fixed;
@@ -897,6 +1104,10 @@ textarea:focus {
 body.resume-open {
   overflow: hidden;
 }
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
 
 @media (max-width: 980px) {
   .section.hero,
@@ -1064,6 +1275,7 @@ body.resume-open {
   }
 }
 
+/* Print: show only the resume overlay, full-bleed on the page */
 @media print {
   body * {
     visibility: hidden;
@@ -1094,9 +1306,846 @@ body.resume-open {
   }
 }
 
+/* ==========================================================================
+   Optional: Scroll Reveal (pure CSS, no JS)
+   Add class="reveal" to any element (section headings, .skill-item,
+   .project-card, etc.) and it fades/slides in as it enters the viewport,
+   driven natively by the scroll position via animation-timeline: view().
+   Chrome, Edge, Opera, and Safari 26+ support this; Firefox does not yet.
+   The @supports guard means unsupported browsers just show the element
+   normally instead of leaving it invisible.
+   ========================================================================== */
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Inline Icon Utilities
+   ========================================================================== */
+
 .arrow-right,
 .d-resume,
 .arrow-right-up {
   margin-left: 10px;
   font-size: inherit;
+}
+
+/* ==========================================================================
+   Project Details page
+   Uses the design tokens already defined in :root (index.css) — no new
+   colors introduced. Signature accent = lime (--accent), secondary label
+   color = cyan (--cyan), everything else pulls from surface/line/text.
+   Scoped under .project-details so it won't touch the homepage cards.
+   ========================================================================== */
+
+.project-details {
+  min-height: 100vh;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.project-details .card {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* ---- back button ---- */
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-back:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.btn-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.arrow-left {
+  font-size: 0.85rem;
+}
+
+/* ---- header ---- */
+
+.project-details-header {
+  margin: 1.75rem 0 1.25rem;
+}
+
+.project-details .eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 0.6rem;
+}
+
+.project-details h2 {
+  font-size: clamp(1.75rem, 4vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+/* ---- image ---- */
+
+.project-details-image {
+  position: relative;
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.project-details-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project-details-image::after {
+  content: 'FIG. 01';
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--text-strong);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+/* ---- summary ---- */
+
+.project-details-summary {
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 1.75rem;
+}
+
+/* ---- highlights ---- */
+
+.project-details h3 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.9rem;
+}
+
+.project-details .project-highlights {
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 0 1.75rem;
+  padding: 0;
+}
+
+.project-details .project-highlights li {
+  position: relative;
+  padding-left: 1.4rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.project-details .project-highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+/* ---- tags ---- */
+
+.project-details .project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 2rem;
+}
+
+.project-details .project-tags span {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.74rem;
+  padding: 0.3rem 0.65rem;
+  color: var(--accent);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+/* ---- actions ---- */
+
+.project-details .project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.project-details .project-actions a {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.15rem;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.project-details .project-actions a:hover {
+  background: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.project-details .project-actions a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- not-found state ---- */
+
+.project-details.not-found .card {
+  max-width: 480px;
+  text-align: center;
+}
+
+.project-details.not-found h2 {
+  margin-bottom: 0.5rem;
+}
+
+.project-details.not-found p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 640px) {
+  .project-details .card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-back,
+  .project-details .project-actions a {
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   More Projects (index / gallery) page
+   Same visual language as project-details.css: dotted grid backdrop,
+   monospace labels, lime accent, cyan as secondary. Scoped under
+   .more-projects / .mp-* so it doesn't touch other pages' styles.
+   ========================================================================== */
+
+.more-projects {
+  min-height: 100vh;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ---- back button (self-contained, same look as project-details' back button) ---- */
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-back:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.btn-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.arrow-left {
+  font-size: 0.85rem;
+}
+
+/* ---- header ---- */
+
+.mp-header {
+  max-width: 1080px;
+  margin: 0 auto 2.5rem;
+}
+
+.more-projects .eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 1.5rem 0 0.6rem;
+}
+
+.mp-header h2 {
+  font-size: clamp(1.75rem, 4vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  margin: 0 0 0.75rem;
+}
+
+.mp-subtitle {
+  max-width: 62ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---- grid ---- */
+
+.mp-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ---- card ---- */
+
+.mp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mp-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.mp-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mp-index {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--text-strong);
+  background: rgba(16, 17, 19, 0.6);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.mp-cover {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.mp-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.mp-card:hover .mp-cover img {
+  transform: scale(1.04);
+}
+
+.mp-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.mp-type {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.4rem;
+}
+
+.mp-body h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 0.5rem;
+}
+
+.mp-summary {
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.more-projects .project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.25rem;
+}
+
+.more-projects .project-tags span {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.55rem;
+  color: var(--accent);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.mp-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  border-top: 1px solid var(--line);
+  transition: color 0.2s ease;
+}
+
+.mp-card:hover .mp-cta {
+  color: var(--cyan);
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 640px) {
+  .mp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-card,
+  .mp-cover img,
+  .mp-cta,
+  .btn-back {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   More About Me page
+   Continues the spec-sheet system from project-details.css / more-projects.css:
+   dotted grid backdrop, mono labels, lime accent, cyan secondary.
+   Signature here: a small "profile dossier" — labeled fields like an ID card.
+   ========================================================================== */
+
+.more-about {
+  min-height: 100vh;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.more-about .card {
+  position: relative;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+/* ---- back button (self-contained) ---- */
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-back:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.btn-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.arrow-left {
+  font-size: 0.85rem;
+}
+
+/* ---- header ---- */
+
+.more-about .eyebrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 1.75rem 0 0.6rem;
+}
+
+.more-about h2 {
+  font-size: clamp(1.75rem, 4vw, 2.65rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  margin: 0 0 0.75rem;
+}
+
+.ma-subtitle {
+  max-width: 62ch;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+
+/* ---- profile dossier ---- */
+
+.ma-profile {
+  display: flex;
+  gap: 1.75rem;
+  align-items: stretch;
+  margin-bottom: 2.5rem;
+}
+
+.ma-picture {
+  flex: 0 0 160px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.ma-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ma-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-2);
+}
+
+.ma-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.ma-field dt {
+  flex: 0 0 70px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.ma-field dd {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+/* ---- content blocks ---- */
+
+.ma-block {
+  margin-bottom: 2.25rem;
+}
+
+.more-about h3 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.ma-block p {
+  max-width: 68ch;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0 0 1rem;
+}
+
+.ma-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- strengths ---- */
+
+.ma-strengths {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.ma-strength {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+
+.ma-strength-name {
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+}
+
+.ma-strength-detail {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---- toolbox ---- */
+
+.ma-toolbox {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ma-tool-category {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: 0 0 0.6rem;
+}
+
+.more-about .project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.more-about .project-tags span {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.74rem;
+  padding: 0.3rem 0.65rem;
+  color: var(--accent);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+/* ---- closing CTA ---- */
+
+.ma-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.ma-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.15rem;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.ma-primary:hover {
+  background: var(--cyan);
+  transform: translateY(-2px);
+}
+
+.ma-secondary {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.15rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.ma-secondary:hover {
+  color: var(--text-strong);
+  border-color: var(--accent);
+}
+
+.ma-primary:focus-visible,
+.ma-secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 640px) {
+  .more-about .card {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .ma-profile {
+    flex-direction: column;
+  }
+
+  .ma-picture {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-back,
+  .ma-primary,
+  .ma-secondary {
+    transition: none;
+  }
 }

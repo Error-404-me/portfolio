@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Avatar from '../assets/avataaars.svg'
 import profileImage from '../assets/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png'
 
@@ -59,10 +60,10 @@ function About() {
               ))}
             </ul>
 
-            <a className="learn-more" href="#contact">
+            <Link className="learn-more" to="/moreAbout">
               More About Me
               <i className="bi bi-arrow-right arrow-right"></i>
-            </a>
+            </Link>
           </div>
         </div>
 
