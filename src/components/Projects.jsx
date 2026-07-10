@@ -17,7 +17,7 @@ function Projects() {
         </div>
 
         <div className="p-container">
-          {projects.map((project) => (
+          {projects.slice(0, 3).map((project) => (
             <article className="project-card" key={project.id}>
               <div className="cover">
                 <div className="screen">

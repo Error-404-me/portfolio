@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import Avatar from '../assets/avataaars.svg'
-import profileImage from '../assets/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png'
+import Avatar from '../assets/img/avataaars.svg'
+import profileImage from '../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png'
 
 const skills = [
   { name: 'HTML' },

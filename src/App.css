@@ -1,12 +1,15 @@
 /* ==========================================================================
-   Global / Page Shell
+   Global Backdrop
    ========================================================================== */
 
 .parent {
   min-height: 100svh;
-  background:
+  background-color: var(--bg);
+  background-image:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 360px),
-    var(--bg);
+    radial-gradient(var(--line) 1px, transparent 1px);
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 22px 22px;
   color: var(--text);
 }
 
@@ -56,26 +59,6 @@
   }
   to {
     width: var(--level);
-  }
-}
-
-@keyframes modal-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes dialog-pop-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 
@@ -218,9 +201,11 @@
 
 .eyebrow {
   margin: 0 0 12px;
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 900;
+  color: var(--cyan);
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   animation: fade-up 700ms ease-out 60ms both;
 }
@@ -261,10 +246,12 @@
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  color: var(--text-strong);
-  background: var(--surface);
-  font-size: 0.9rem;
-  font-weight: 700;
+  color: var(--accent);
+  background: var(--surface-2);
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .hero-actions,
@@ -337,6 +324,16 @@
   border-color: rgba(88, 214, 209, 0.55);
 }
 
+/* Primary (filled) buttons additionally swap their fill to cyan on hover,
+   matching the CTA behavior on the Project Details / More About pages. */
+.learn-more:hover,
+.c-submit:hover,
+.resume-action:hover,
+.project-actions a:first-child:hover,
+.btn-more:hover {
+  background: var(--cyan);
+}
+
 .learn-more:active,
 .btn-project:active,
 .c-submit:active,
@@ -398,6 +395,18 @@
   animation:
     fade-up 700ms ease-out 500ms both,
     pulse-glow 2.6s ease-in-out 1.2s infinite;
+}
+
+/* Small labeled-field tag, echoing the profile dossier fields on the
+   More About page (STATUS / FOCUS / BASE). */
+.availability::before {
+  content: 'STATUS';
+  display: block;
+  margin-bottom: 2px;
+  color: var(--cyan);
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
 }
 
 .availability span {
@@ -478,7 +487,6 @@
 
 .get-know h3,
 .description h3,
-.project-dialog h3,
 .p-form h3 {
   margin: 0;
   color: var(--text-strong);
@@ -533,8 +541,7 @@
 
 .skill-item,
 .project-card,
-.f-container,
-.project-dialog {
+.f-container {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface);
@@ -567,7 +574,8 @@
 
 .skill-topline span {
   color: var(--support);
-  font-weight: 900;
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-weight: 700;
 }
 
 .skill-track {
@@ -626,18 +634,38 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+  /* Powers the P.01 / P.02 index badge on each card below — same device
+     used on the full Project Index page, kept in sync automatically. */
+  counter-reset: project-index;
 }
 
 .project-card {
   display: grid;
   grid-template-rows: auto 1fr;
+  counter-increment: project-index;
   overflow: hidden;
 }
 
 .cover {
+  position: relative;
   aspect-ratio: 16 / 10;
   padding: 10px;
   background: var(--surface-2);
+}
+
+.cover::before {
+  content: 'P.' counter(project-index, decimal-leading-zero);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  color: var(--text-strong);
+  background: rgba(16, 17, 19, 0.6);
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
 }
 
 .screen {
@@ -670,15 +698,16 @@
 }
 
 .description p,
-.project-dialog p,
 .project-highlights {
   color: var(--muted);
 }
 
 .project-type {
   color: var(--warm);
-  font-size: 0.82rem;
-  font-weight: 900;
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -693,62 +722,12 @@
   margin-top: auto;
 }
 
-/* ==========================================================================
-   Project Detail Modal
-   ========================================================================== */
-
-.project-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  background: rgba(5, 6, 7, 0.75);
-  animation: modal-fade-in 220ms ease-out both;
-
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-
-.project-dialog {
-  position: relative;
-  width: min(760px, 100%);
-  max-height: min(780px, calc(100svh - 44px));
-  overflow: auto;
-  padding: 24px;
-  text-align: left;
-  animation: dialog-pop-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.project-dialog img {
-  width: 100%;
-  max-height: 300px;
-  margin-bottom: 22px;
-  border-radius: 6px;
-  object-fit: cover;
-  object-position: top center;
-}
-
+/* Shared by the Projects, Project Details, and Project Index pages */
 .project-highlights {
   display: grid;
   gap: 8px;
   margin: 18px 0;
   padding-left: 18px;
-}
-
-.modal-close {
-  position: sticky;
-  top: 0;
-  float: right;
-  min-height: 38px;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text-strong);
-  background: var(--surface-2);
-  cursor: pointer;
 }
 
 /* ==========================================================================
@@ -924,7 +903,9 @@ textarea:focus {
   width: min(1180px, 100%);
   margin: 28px auto 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
   text-align: left;
 }
 
@@ -1119,7 +1100,7 @@ body.resume-open {
 
   .section.hero {
     gap: 36px;
-    min-height: auto;
+    min-height: 320px;
     padding: 56px 0;
   }
 
@@ -1245,7 +1226,7 @@ body.resume-open {
   }
 
   .resume {
-    min-height: auto;
+    min-height: 320px;
     grid-template-columns: 1fr;
   }
 
@@ -1300,7 +1281,7 @@ body.resume-open {
 
   .resume {
     width: 100%;
-    min-height: auto;
+    min-height: 320px;
     border-radius: 0;
     box-shadow: none;
   }

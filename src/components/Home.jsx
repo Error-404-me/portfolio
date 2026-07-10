@@ -1,4 +1,4 @@
-import heroPortrait from '../assets/resume-profile.png'
+import heroPortrait from '../assets/img/resume-profile.png'
 
 function Home() {
 
