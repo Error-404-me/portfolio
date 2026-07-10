@@ -11,7 +11,7 @@ export const projects = [
     image: TravelGuideImg,
     summary:
       'A software design project that helps travelers explore local destinations with useful place information.',
-    tags: ['Software Design', 'Travel', 'Team Project'],
+    tags: ['Software Design', 'Travel', 'Team Project', '.NET', 'SSMS'],
     highlights: [
       'Destination-focused presentation',
       'Built for a Computer Engineering course project',
@@ -26,7 +26,7 @@ export const projects = [
     image: TravelGuideImg,
     summary:
       'A mobile application that lets users remotely monitor temperature and humidity and control actuators such as the incandescent bulb, fan, and humidifier.',
-    tags: ['Software and Hardware Design', 'IoT', 'By Pair Project'],
+    tags: ['Software and Hardware Design', 'IoT', 'Thesis Project', 'Python (Flet)', 'Firebase'],
     highlights: [
       'Native application using Flet framework of python',
       'Project and Design final requirements',
@@ -89,7 +89,7 @@ export const projects = [
     image: PortfolioImgPng,
     summary:
       'This is the project I made for our "Enhancement Course" where we are going to make a web application that showcasing the ELT and ETL pipeline.',
-    tags: ['UI Design', 'Python (Flet)'],
+    tags: ['UI Design', 'Python (Flet)', 'Sqlite3'],
     highlights: [
       'User can add expenses they did and choose the category',
       'With visualiztion graph and analysis',

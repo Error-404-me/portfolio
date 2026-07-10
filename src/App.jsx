@@ -9,8 +9,8 @@ import instagram from './assets/img/instagram.svg'
 import google from './assets/img/google.svg'
 import github from './assets/img/github.svg'
 import list from './assets/img/list.svg'
-import resumeProfile from './assets/img/resume-profile.png'
 import './App.css'
+import PdfPreview from './components/PdfPreview'
 
 const contactEmail = 'pasuquinargie29@gmail.com'
 
@@ -43,124 +43,6 @@ const socialLinks = [
     icon: github,
   },
 ]
-
-function ResumeDialog({ open, onClose }) {
-  if (!open) {
-    return null
-  }
-
-  const handlePrint = () => {
-    const cv = document.createElement('a')
-    cv.href = "/resume.pdf"
-    cv.download = "Argie_Pasuquin_Resume.pdf"
-    cv.click()
-  }
-
-  return (
-    <div
-      className="resume-container"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="resume-title"
-    >
-      <div className="resume-actions">
-        <button type="button" className="resume-action secondary" onClick={onClose}>
-          Close
-        </button>
-        <button type="button" className="resume-action" onClick={handlePrint}>
-          Download Resume
-        </button>
-      </div>
-
-      <article className="resume">
-        <header className="resume-top">
-          <img src={resumeProfile} alt="Argie C. Pasuquin" />
-          <div>
-            <p>Computer Engineering Student</p>
-            <h1 id="resume-title">Argie C. Pasuquin</h1>
-            <h2>Front-End Developer and Programmer</h2>
-          </div>
-        </header>
-
-        <aside className="resume-lside" aria-label="Resume sidebar">
-          <section>
-            <h3>Contact</h3>
-            <p>+63 931 785 2852</p>
-            <p>{contactEmail}</p>
-            <p>Balidbid, Santa Fe, Cebu</p>
-            <p>pasuquinargie.wordpress.com</p>
-          </section>
-
-          <section>
-            <h3>Skills</h3>
-            <ul>
-              <li>HTML, CSS, and responsive layouts</li>
-              <li>JavaScript and React basics</li>
-              <li>Python and Java programming fundamentals</li>
-              <li>WordPress site editing</li>
-              <li>Attention to detail and adaptability</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3>Languages</h3>
-            <ul>
-              <li>Bisaya - Fluent</li>
-              <li>Tagalog - Fluent</li>
-              <li>English - Conversational</li>
-            </ul>
-          </section>
-        </aside>
-
-        <main className="resume-rside">
-          <section>
-            <h3>Profile</h3>
-            <p>
-              Computer Engineering student focused on practical software projects,
-              user-friendly interfaces, and the bridge between hardware and software.
-            </p>
-          </section>
-
-          <section>
-            <h3>Experience</h3>
-            <div className="resume-entry">
-              <h4>Customer Service Trainee</h4>
-              <p>Printing and ID services</p>
-              <ul>
-                <li>Assisted walk-in customers with printing, photocopying, laminating, and scanning.</li>
-                <li>Handled inquiries and operated office equipment in a professional setting.</li>
-              </ul>
-            </div>
-            <div className="resume-entry">
-              <h4>Egg Classifier</h4>
-              <p>Poultry farm operations</p>
-              <ul>
-                <li>Classified and sorted eggs by size.</li>
-                <li>Recorded inventory and assisted with daily farm operations.</li>
-              </ul>
-            </div>
-          </section>
-
-          <section>
-            <h3>Education</h3>
-            <div className="resume-entry">
-              <h4>Bachelor of Science in Computer Engineering</h4>
-              <p>University of Cebu - Main Campus</p>
-            </div>
-            <div className="resume-entry">
-              <h4>Senior High School - HUMSS</h4>
-              <p>Madridejos Community College</p>
-            </div>
-            <div className="resume-entry">
-              <h4>High School Graduate</h4>
-              <p>Madridejos National High School</p>
-            </div>
-          </section>
-        </main>
-      </article>
-    </div>
-  )
-}
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -198,7 +80,8 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Effect 3 — resume dialog
+  // Effect 3 — resume dialog (scroll-lock + Escape). PdfPreview is used in
+  // controlled mode below, so this is the single source of truth for both.
   useEffect(() => {
     document.body.classList.toggle('resume-open', isResumeOpen)
     const handleKeyDown = (e) => {
@@ -258,7 +141,7 @@ function App() {
             </a>
           ))}
           <button type="button" className="nav-link nav-button" onClick={openResume}>
-            Resume
+            View Resume
           </button>
         </nav>
       </header>
@@ -320,7 +203,12 @@ function App() {
         </svg>
       </button>
 
-      <ResumeDialog open={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
+      <PdfPreview
+        open={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+        fileUrl="/resume.pdf"
+        fileName="Argie-Resume.pdf"
+      />
     </div>
   )
 }
