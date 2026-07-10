@@ -1,3 +1,4 @@
+import { href } from 'react-router-dom'
 import PortfolioImg from '../assets/img/Screenshot 2025-07-14 155635.png'
 import PortfolioImgPng from '../assets/img/portfolio.png'
 import TravelGuideImg from '../assets/img/travel_guide.png'
@@ -80,5 +81,23 @@ export const projects = [
       'Good practice for state and list rendering',
     ],
     links: [{ label: 'Discuss this project', href: '#contact' }],
+  },
+  {
+    id: 'expensesTracker',
+    title: 'Expenses Tracker',
+    type: 'Productivity UI',
+    image: PortfolioImgPng,
+    summary:
+      'This is the project I made for our "Enhancement Course" where we are going to make a web application that showcasing the ELT and ETL pipeline.',
+    tags: ['UI Design', 'Python (Flet)'],
+    highlights: [
+      'User can add expenses they did and choose the category',
+      'With visualiztion graph and analysis',
+      'Can view the anylis of selected month',
+    ],
+    links: [
+      { label: 'Discuss this project', href: '#contact' },
+      { label: 'Live link', href:'https://myexpensestracker.up.railway.app/'}
+    ],
   },
 ]

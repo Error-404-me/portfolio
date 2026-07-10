@@ -2130,3 +2130,114 @@ body.resume-open {
     transition: none;
   }
 }
+
+/* ==========================================================================
+   Cursor FX
+   A precise dot plus a bracket reticle that eases toward the mouse and
+   snaps to whatever interactive element is hovered. Disabled entirely on
+   touch devices (handled in CursorFX.jsx before this class is ever added).
+   ========================================================================== */
+
+/* Hide the native cursor everywhere once the effect is active, but keep
+   the native text-cursor for anything you actually type into. */
+body.cursor-fx-active,
+body.cursor-fx-active * {
+  cursor: none !important;
+}
+
+body.cursor-fx-active input,
+body.cursor-fx-active textarea {
+  cursor: text !important;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(199, 244, 100, 0.55);
+  pointer-events: none;
+  transition: opacity 200ms ease, background-color 200ms ease;
+  will-change: transform;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  will-change: transform, width, height;
+}
+
+.cursor-tick {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--accent);
+  opacity: 0.85;
+  transition: border-color 200ms ease, opacity 200ms ease, transform 200ms ease;
+}
+
+.tick-tl {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.tick-tr {
+  top: -1px;
+  right: -1px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.tick-bl {
+  bottom: -1px;
+  left: -1px;
+  border-right: none;
+  border-top: none;
+}
+
+.tick-br {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Locked onto an interactive element: brighten to cyan and nudge the
+   corners outward slightly so the bracket reads as "focused". */
+.cursor-ring.is-locked .cursor-tick {
+  border-color: var(--cyan);
+  opacity: 1;
+}
+
+.cursor-ring.is-locked .tick-tl {
+  transform: translate(-2px, -2px);
+}
+
+.cursor-ring.is-locked .tick-tr {
+  transform: translate(2px, -2px);
+}
+
+.cursor-ring.is-locked .tick-bl {
+  transform: translate(-2px, 2px);
+}
+
+.cursor-ring.is-locked .tick-br {
+  transform: translate(2px, 2px);
+}
+
+/* Pressed: corners pull inward for a quick "shutter click" moment. */
+.cursor-ring.is-pressed .cursor-tick {
+  transform: translate(0, 0) scale(0.85);
+}

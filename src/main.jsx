@@ -6,12 +6,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import ProjectDetails from './pages/ProjectDetails.jsx'
 import MoreProjects from './pages/MoreProjects.jsx'
 import MoreAbout from './pages/MoreAbout.jsx'
+import CursorFX from './components/CursorFX.jsx'
 import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+      <CursorFX/>
       <Routes>
         <Route path='/' element={<App />}/>
         <Route path="/moreAbout" element={<MoreAbout />} />
