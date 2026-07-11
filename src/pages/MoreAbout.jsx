@@ -46,12 +46,10 @@ function MoreAbout() {
 
   return (
     <section className="more-about" id="more-about">
+      <button type="button" className="btn-back" onClick={() => navigate(-1)}>
+        <i className="bi bi-x-lg arrow-left"></i>
+      </button>
       <div className="card">
-        <button type="button" className="btn-back" onClick={() => navigate(-1)}>
-          <i className="bi bi-arrow-left arrow-left"></i>
-          Back
-        </button>
-
         <p className="eyebrow">About</p>
         <h2>The Long Version</h2>
         <p className="ma-subtitle">

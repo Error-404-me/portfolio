@@ -27,12 +27,10 @@ function ProjectDetails() {
 
   return (
     <section className="project-details" id="project-details">
-      <div className="card">
         <button type="button" className="btn-back" onClick={() => navigate(-1)}>
-          <i className="bi bi-arrow-left arrow-left"></i>
-          Back
+          <i className="bi bi-x-lg arrow-left"></i>
         </button>
-
+      <div className="card">
         <div className="project-details-header">
           <p className="eyebrow">{project.type}</p>
           <h2>{project.title}</h2>

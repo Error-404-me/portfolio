@@ -6,13 +6,10 @@ function MoreProjects() {
 
   return (
     <section className="more-projects" id="more-projects">
+      <button type="button" className="btn-back" onClick={() => navigate('/')}>
+        <i className="bi bi-x-lg arrow-left"></i>
+      </button>
       <div className="mp-header">
-        <button type="button" className="btn-back" onClick={() => navigate('/')}>
-          <i className="bi bi-arrow-left arrow-left"></i>
-          Back
-        </button>
-
-        <p className="eyebrow">Project Index</p>
         <h2>All Projects</h2>
         <p className="mp-subtitle">
           Everything I've built, designed, or contributed to so far. Pick any card to
