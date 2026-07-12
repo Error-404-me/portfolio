@@ -2,6 +2,18 @@ import { href } from "react-router-dom";
 import PortfolioImg from "../assets/portfoilioImage/portfolioImage-removebg.png";
 import PortfolioImgPng from "../assets/img/portfolio.png";
 import TravelGuideImg from "../assets/img/travel_guide.png";
+import loadingScreen from "../assets/eggCubatorImages/loadingScreen.jpg";
+import homeScreen from "../assets/eggCubatorImages/homeScreen.jpg";
+import settingsScreen from "../assets/eggCubatorImages/settingsScreen.jpg";
+import guidlinesScreen from "../assets/eggCubatorImages/guidelinesScreen.jpg";
+import historyScreen from "../assets/eggCubatorImages/historyScreen.jpg";
+import notificationsScreen from "../assets/eggCubatorImages/notificationsScreen.jpg";
+import aboutUsScreen from "../assets/eggCubatorImages/aboutUsScreen.jpg";
+import batchScreen from "../assets/eggCubatorImages/batchScreen.jpg";
+import hatchCalulatorScreen from "../assets/eggCubatorImages/hatchCalculatorScreen.jpg";
+import exportScreen from "../assets/eggCubatorImages/exportLog.jpg";
+import eggJournalScreen from "../assets/eggCubatorImages/eggJournalScree.jpg";
+import darkModePreview from "../assets/eggCubatorImages/darkModePreview.jpg";
 
 export const projects = [
   {
@@ -23,7 +35,20 @@ export const projects = [
     id: "eggCubator",
     title: "EggCubator App",
     type: "IoT Based",
-    image: TravelGuideImg,
+    image: [
+      loadingScreen,
+      homeScreen,
+      settingsScreen,
+      guidlinesScreen,
+      historyScreen,
+      notificationsScreen,
+      batchScreen,
+      hatchCalulatorScreen,
+      exportScreen,
+      aboutUsScreen,
+      exportScreen,
+      darkModePreview,
+    ],
     summary:
       "A mobile application that lets users remotely monitor temperature and humidity and control actuators such as the incandescent bulb, fan, and humidifier.",
     tags: [

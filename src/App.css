@@ -1357,6 +1357,7 @@ body.resume-open {
   border: none;
   border-radius: 20px;
   display: flex;
+  flex-direction: column;
 }
 
 /* ---- back button ---- */
@@ -1433,20 +1434,25 @@ body.resume-open {
 
 .project-details-image {
   position: relative;
+  aspect-ratio: 16 / 9;
   margin: 1.5rem 0 2rem;
-  border: 1px solid var(--line);
+  border: none;
   border-radius: 14px;
   overflow: hidden;
-  background: var(--surface-2);
+  background: transparent;
 }
 
 .project-details-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
-.project-details-image::after {
+/* Static single-image case still gets a caption, matching the site's
+   FIG./P. index convention used elsewhere. The marquee doesn't need one —
+   there's no single "current" figure when several are visible at once. */
+.project-details-image:not(.pd-marquee)::after {
   content: "FIG. 01";
   position: absolute;
   right: 0.75rem;
@@ -1459,6 +1465,128 @@ body.resume-open {
   background: var(--surface-2);
   border: 1px solid var(--line);
   border-radius: 999px;
+}
+
+/* ---- image marquee ---- */
+
+@keyframes pd-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Exactly one full (undoubled) copy's width, since the track holds
+       two copies back to back — this is what makes the loop seamless. */
+    transform: translateX(-50%);
+  }
+}
+
+/* A strip of fixed-height thumbnails suits scrolling screenshots better
+   than the single-slide 16:9 frame, so this overrides it. */
+.project-details-image.pd-marquee {
+  aspect-ratio: unset;
+  height: auto;
+  display: flex;
+  align-items: center;
+  background: transparent;
+}
+
+/* Edge fade: two decorative overlays, not a mask, so the card's own
+   border/background/radius stay crisp — only the images dissolve as
+   they approach the edges, into the same color as the container's own
+   background so there's no visible seam. */
+.pd-marquee::before,
+.pd-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: clamp(24px, 10%, 64px);
+  pointer-events: none;
+}
+
+.pd-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--surface), transparent);
+}
+
+.pd-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--surface), transparent);
+}
+
+.pd-marquee-track {
+  --item-width: 128px;
+  --marquee-gap: 16px;
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap);
+  width: max-content;
+  animation: pd-marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+
+.pd-marquee-track.is-paused {
+  animation-play-state: paused;
+}
+
+.pd-marquee-item {
+  flex: 0 0 auto;
+  width: var(--item-width);
+  height: 700px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.pd-marquee-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Desktop: ~4-6 thumbnails visible at once. */
+@media (min-width: 1025px) {
+  .pd-marquee-track {
+    --item-width: 300px;
+    --marquee-gap: 16px;
+  }
+}
+
+/* Tablet: ~3-4 thumbnails visible at once. */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .project-details-image.pd-marquee {
+    height: 190px;
+  }
+  .pd-marquee-item {
+    height: 154px;
+  }
+  .pd-marquee-track {
+    --item-width: 150px;
+    --marquee-gap: 14px;
+  }
+}
+
+/* Mobile: ~2-3 thumbnails visible at once. */
+@media (max-width: 640px) {
+  .project-details-image.pd-marquee {
+    height: 150px;
+  }
+  .pd-marquee-item {
+    height: 118px;
+  }
+  .pd-marquee-track {
+    --item-width: 110px;
+    --marquee-gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-marquee-track {
+    animation: none;
+    transform: none;
+  }
 }
 
 /* ---- summary ---- */
@@ -1592,7 +1720,6 @@ body.resume-open {
     transition: none;
   }
 }
-
 /* ==========================================================================
    More Projects (index / gallery) page
    Same visual language as project-details.css: dotted grid backdrop,
