@@ -1,117 +1,122 @@
-import { useEffect, useState } from 'react'
-import logo from './assets/img/A_logo.svg'
-import Home from './components/Home'
-import About from './components/About'
-import Projects from './components/Projects'
-import ContactMe from './components/Contact'
-import facebook from './assets/img/facebook.svg'
-import instagram from './assets/img/instagram.svg'
-import google from './assets/img/google.svg'
-import github from './assets/img/github.svg'
-import list from './assets/img/list.svg'
-import './App.css'
-import PdfPreview from './components/PdfPreview'
+import { useEffect, useState } from "react";
+import logo from "./assets/img/A_logo.svg";
+import Home from "./components/Home";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import ContactMe from "./components/Contact";
+import facebook from "./assets/img/facebook.svg";
+import instagram from "./assets/img/instagram.svg";
+import google from "./assets/img/google.svg";
+import github from "./assets/img/github.svg";
+import list from "./assets/img/list.svg";
+import "./App.css";
+import PdfPreview from "./components/PdfPreview";
 
-const contactEmail = 'pasuquinargie29@gmail.com'
+const contactEmail = "pasuquinargie29@gmail.com";
 
 const navItems = [
-  { label: 'Home', href: '#home', id: 'home' },
-  { label: 'About', href: '#about', id: 'about' },
-  { label: 'Projects', href: '#projects', id: 'projects' },
-  { label: 'Contact', href: '#contact', id: 'contact' },
-]
+  { label: "Home", href: "#home", id: "home" },
+  { label: "About", href: "#about", id: "about" },
+  { label: "Projects", href: "#projects", id: "projects" },
+  { label: "Contact", href: "#contact", id: "contact" },
+];
 
 const socialLinks = [
   {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/argie.pasuquin.2025',
+    label: "Facebook",
+    href: "https://www.facebook.com/argie.pasuquin.2025",
     icon: facebook,
   },
   {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/implicit_declaration',
+    label: "Instagram",
+    href: "https://www.instagram.com/implicit_declaration",
     icon: instagram,
   },
   {
-    label: 'Email',
+    label: "Email",
     href: `mailto:${contactEmail}`,
     icon: google,
   },
   {
-    label: 'GitHub',
-    href: 'https://github.com/Error-404-me',
+    label: "GitHub",
+    href: "https://github.com/Error-404-me",
     icon: github,
   },
-]
+];
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isResumeOpen, setIsResumeOpen] = useState(false)
-  const [showBackTop, setShowBackTop] = useState(false)
-  const [activeSection, setActiveSection] = useState('home')
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [showBackTop, setShowBackTop] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   // Effect 1 — back to top button
   useEffect(() => {
-    const handleScroll = () => setShowBackTop(window.scrollY > 520)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handleScroll = () => setShowBackTop(window.scrollY > 520);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Effect 2 — active nav
   useEffect(() => {
     const handleScroll = () => {
-      const headerOffset = 100
-      let current = navItems[0].id
+      const headerOffset = 100;
+      let current = navItems[0].id;
 
       navItems.forEach(({ id }) => {
-        const el = document.getElementById(id)
-        if (!el) return
+        const el = document.getElementById(id);
+        if (!el) return;
         if (el.getBoundingClientRect().top <= headerOffset) {
-          current = id
+          current = id;
         }
-      })
+      });
 
-      setActiveSection(current)
-    }
+      setActiveSection(current);
+    };
 
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Effect 3 — resume dialog (scroll-lock + Escape). PdfPreview is used in
   // controlled mode below, so this is the single source of truth for both.
   useEffect(() => {
-    document.body.classList.toggle('resume-open', isResumeOpen)
+    document.body.classList.toggle("resume-open", isResumeOpen);
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        setIsResumeOpen(false)
-        setIsMenuOpen(false)
+      if (e.key === "Escape") {
+        setIsResumeOpen(false);
+        setIsMenuOpen(false);
       }
-    }
-    window.addEventListener('keydown', handleKeyDown)
+    };
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.classList.remove('resume-open')
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isResumeOpen])
+      document.body.classList.remove("resume-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isResumeOpen]);
 
-  const closeMenu = () => setIsMenuOpen(false)
+  const closeMenu = () => setIsMenuOpen(false);
 
   const openResume = () => {
-    setIsResumeOpen(true)
-    setIsMenuOpen(false)
-  }
+    setIsResumeOpen(true);
+    setIsMenuOpen(false);
+  };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="parent" id="parent">
       <header className="header">
-        <a href="#home" className="logo-name" onClick={closeMenu} aria-label="Go to home">
+        <a
+          href="#home"
+          className="logo-name"
+          onClick={closeMenu}
+          aria-label="Go to home"
+        >
           <span className="logo">
             <img src={logo} alt="Argie Pasuquin logo" />
           </span>
@@ -129,18 +134,25 @@ function App() {
           <img src={list} alt="" aria-hidden="true" />
         </button>
 
-        <nav className={`dropdown ${isMenuOpen ? 'is-open' : ''}`} id="main-menu">
+        <nav
+          className={`dropdown ${isMenuOpen ? "is-open" : ""}`}
+          id="main-menu"
+        >
           {navItems.map((item) => (
             <a
               key={item.id}
-              className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
+              className={`nav-link ${activeSection === item.id ? "active" : ""}`}
               href={item.href}
               onClick={closeMenu}
             >
               {item.label}
             </a>
           ))}
-          <button type="button" className="nav-link nav-button" onClick={openResume}>
+          <button
+            type="button"
+            className="nav-link nav-button"
+            onClick={openResume}
+          >
             View Resume
           </button>
         </nav>
@@ -155,7 +167,9 @@ function App() {
         <div className="footer-container">
           <div className="footer-brand">
             <h2>Argie C. Pasuquin</h2>
-            <p>Programmer, front-end developer, and Computer Engineering student.</p>
+            <p>
+              Programmer, front-end developer, and Computer Engineering student.
+            </p>
           </div>
 
           <div className="footer-socials" aria-label="Social links">
@@ -164,8 +178,8 @@ function App() {
                 key={link.label}
                 href={link.href}
                 aria-label={link.label}
-                target={link.href.startsWith('http') ? '_blank' : undefined}
-                rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
               >
                 <img src={link.icon} alt="" aria-hidden="true" />
               </a>
@@ -177,13 +191,16 @@ function App() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Argie C. Pasuquin. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Argie C. Pasuquin. All rights
+            reserved.
+          </p>
         </div>
       </footer>
 
       <button
         type="button"
-        className={`back-top ${showBackTop ? 'is-visible' : ''}`}
+        className={`back-top ${showBackTop ? "is-visible" : ""}`}
         aria-label="Back to top"
         onClick={scrollToTop}
       >
@@ -210,7 +227,7 @@ function App() {
         fileName="Argie-Resume.pdf"
       />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,15 +1,15 @@
-import { useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { projects } from '../assets/projects'
+import { useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { projects } from "../assets/projects";
 
 function ProjectDetails() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const project = projects.find((item) => item.id === id)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const project = projects.find((item) => item.id === id);
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [id])
+    window.scrollTo(0, 0);
+  }, [id]);
 
   if (!project) {
     return (
@@ -17,19 +17,23 @@ function ProjectDetails() {
         <div className="card">
           <h2>Project not found</h2>
           <p>We couldn't find the project you're looking for.</p>
-          <button type="button" className="btn-project" onClick={() => navigate('/')}>
+          <button
+            type="button"
+            className="btn-project"
+            onClick={() => navigate("/")}
+          >
             Back to home
           </button>
         </div>
       </section>
-    )
+    );
   }
 
   return (
     <section className="project-details" id="project-details">
-        <button type="button" className="btn-back" onClick={() => navigate(-1)}>
-          <i className="bi bi-x-lg arrow-left"></i>
-        </button>
+      <button type="button" className="btn-back" onClick={() => navigate(-1)}>
+        <i className="bi bi-x-lg arrow-left"></i>
+      </button>
       <div className="card">
         <div className="project-details-header">
           <p className="eyebrow">{project.type}</p>
@@ -57,20 +61,25 @@ function ProjectDetails() {
 
         <div className="project-actions">
           {project.links.map((link) =>
-            link.href.startsWith('http') ? (
-              <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
+            link.href.startsWith("http") ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {link.label}
               </a>
             ) : (
               <Link key={link.label} to={`/${link.href}`}>
                 {link.label}
               </Link>
-            )
+            ),
           )}
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ProjectDetails
+export default ProjectDetails;

@@ -1,12 +1,11 @@
-import heroPortrait from '../assets/img/resume-profile.png'
+import heroPortrait from "../assets/img/resume-profile.png";
 
 function Home() {
-
-  function downloadResume(){
-    const cv = document.createElement('a')
-    cv.href = '../resume.pdf'
-    cv.download = 'Argie_Pasuquin_Resume.pdf'
-    cv.click()
+  function downloadResume() {
+    const cv = document.createElement("a");
+    cv.href = "../resume.pdf";
+    cv.download = "Argie_Pasuquin_Resume.pdf";
+    cv.click();
   }
 
   return (
@@ -15,8 +14,8 @@ function Home() {
         <p className="eyebrow">Computer Engineering Student</p>
         <h1 id="home-title">Argie C. Pasuquin</h1>
         <p className="hero-copy">
-          I build practical, responsive web experiences and enjoy connecting software ideas
-          with hardware thinking.
+          I build practical, responsive web experiences and enjoy connecting
+          software ideas with hardware thinking.
         </p>
 
         <div className="role" aria-label="Core roles">
@@ -28,11 +27,11 @@ function Home() {
         <div className="hero-actions">
           <a className="learn-more" href="#projects">
             View Projects
-            <i className='bi bi-arrow-up-right arrow-right-up'></i>
+            <i className="bi bi-arrow-up-right arrow-right-up"></i>
           </a>
           <button type="button" className="btn-resume" onClick={downloadResume}>
             Download Resume
-            <i className='bi bi-download d-resume'></i>
+            <i className="bi bi-download d-resume"></i>
           </button>
         </div>
       </div>
@@ -47,7 +46,7 @@ function Home() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -1,32 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
-function PdfPreview({ fileUrl, fileName = 'resume.pdf', triggerLabel = 'View Resume', open, onClose }) {
-  const isControlled = open !== undefined
-  const [internalOpen, setInternalOpen] = useState(false)
-  const isOpen = isControlled ? open : internalOpen
-  const closeOverlay = isControlled ? onClose : () => setInternalOpen(false)
+function PdfPreview({
+  fileUrl,
+  fileName = "resume.pdf",
+  triggerLabel = "View Resume",
+  open,
+  onClose,
+}) {
+  const isControlled = open !== undefined;
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = isControlled ? open : internalOpen;
+  const closeOverlay = isControlled ? onClose : () => setInternalOpen(false);
 
   // Only manage scroll-lock / Escape ourselves when self-contained.
   // In controlled mode the parent already owns this (see App.jsx).
   useEffect(() => {
-    if (isControlled || !isOpen) return undefined
+    if (isControlled || !isOpen) return undefined;
 
-    document.body.classList.add('resume-open')
+    document.body.classList.add("resume-open");
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setInternalOpen(false)
-    }
-    window.addEventListener('keydown', handleKeyDown)
+      if (event.key === "Escape") setInternalOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.classList.remove('resume-open')
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isControlled, isOpen])
+      document.body.classList.remove("resume-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isControlled, isOpen]);
 
   return (
     <>
       {!isControlled && (
-        <button type="button" className="btn-resume" onClick={() => setInternalOpen(true)}>
+        <button
+          type="button"
+          className="btn-resume"
+          onClick={() => setInternalOpen(true)}
+        >
           {triggerLabel}
         </button>
       )}
@@ -42,7 +52,11 @@ function PdfPreview({ fileUrl, fileName = 'resume.pdf', triggerLabel = 'View Res
             <span className="pdf-filename">{fileName}</span>
 
             <div className="pdf-actions-buttons">
-              <button type="button" className="resume-action secondary" onClick={closeOverlay}>
+              <button
+                type="button"
+                className="resume-action secondary"
+                onClick={closeOverlay}
+              >
                 Close
               </button>
             </div>
@@ -54,7 +68,7 @@ function PdfPreview({ fileUrl, fileName = 'resume.pdf', triggerLabel = 'View Res
         </div>
       )}
     </>
-  )
+  );
 }
 
-export default PdfPreview
+export default PdfPreview;

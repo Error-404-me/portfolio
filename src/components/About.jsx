@@ -1,26 +1,32 @@
-import { Link } from 'react-router-dom'
-import Avatar from '../assets/img/avataaars.svg'
-import profileImage from '../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png'
+import { Link } from "react-router-dom";
+import Avatar from "../assets/img/avataaars.svg";
+import profileImage from "../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png";
 
 const skills = [
-  { name: 'HTML' },
-  { name: 'CSS' },
-  { name: 'JavaScript' },
-  { name: 'React.JS' },
-  { name: 'Python' },
-  { name: 'WordPress' },
-  { name: 'C++' },
-  { name: 'Bootstrap' },
-  { name: 'Embedded System' },
-  { name: 'GitHub Actions' },
-  { name: 'Git/GitHub' },
-  { name: 'Firebase' },
-  { name: 'Supabase' },
-  { name: 'Flet' },
-  { name: 'Mobile App Development'}
-]
+  { name: "HTML" },
+  { name: "CSS" },
+  { name: "JavaScript" },
+  { name: "React.JS" },
+  { name: "Python" },
+  { name: "WordPress" },
+  { name: "C++" },
+  { name: "Bootstrap" },
+  { name: "Embedded System" },
+  { name: "GitHub Actions" },
+  { name: "Git/GitHub" },
+  { name: "Firebase" },
+  { name: "Supabase" },
+  { name: "Flet" },
+  { name: "Mobile App Development" },
+];
 
-const strengths = ['Adaptable', 'Detail-focused', 'Curious', 'Reliable', 'Resourceful']
+const strengths = [
+  "Adaptable",
+  "Detail-focused",
+  "Curious",
+  "Reliable",
+  "Resourceful",
+];
 
 function About() {
   return (
@@ -38,20 +44,24 @@ function About() {
 
         <div className="know-me">
           <figure className="my-picontainer">
-            <img className="my-pic" src={profileImage} alt="Argie working profile" />
+            <img
+              className="my-pic"
+              src={profileImage}
+              alt="Argie working profile"
+            />
           </figure>
 
           <div className="get-know">
             <h3>Get to know me</h3>
             <p>
-              I like turning ideas into working projects, whether that means designing a
-              website, writing front-end code, or thinking through how hardware and software
-              can work together.
+              I like turning ideas into working projects, whether that means
+              designing a website, writing front-end code, or thinking through
+              how hardware and software can work together.
             </p>
             <p>
-              I am currently sharpening my React, JavaScript, Python, and design skills.
-              I am also open to freelance or junior opportunities where I can contribute,
-              keep learning, and grow with real projects.
+              I am currently sharpening my React, JavaScript, Python, and design
+              skills. I am also open to freelance or junior opportunities where
+              I can contribute, keep learning, and grow with real projects.
             </p>
 
             <ul className="quick-facts" aria-label="Personal strengths">
@@ -83,7 +93,7 @@ function About() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default About
+export default About;

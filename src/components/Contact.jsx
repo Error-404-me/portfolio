@@ -1,102 +1,104 @@
-import { useState } from 'react'
-import facebook from '../assets/img/facebook.svg'
-import instagram from '../assets/img/instagram.svg'
-import google from '../assets/img/google.svg'
-import github from '../assets/img/github.svg'
-import telephone from '../assets/img/telephone.svg'
+import { useState } from "react";
+import facebook from "../assets/img/facebook.svg";
+import instagram from "../assets/img/instagram.svg";
+import google from "../assets/img/google.svg";
+import github from "../assets/img/github.svg";
+import telephone from "../assets/img/telephone.svg";
 
-const emailAddress = 'pasuquinargie29@gmail.com'
-const phoneNumber = '+639317852852'
+const emailAddress = "pasuquinargie29@gmail.com";
+const phoneNumber = "+639317852852";
 
 const contactLinks = [
   {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/argie.pasuquin.2025',
+    label: "Facebook",
+    href: "https://www.facebook.com/argie.pasuquin.2025",
     icon: facebook,
   },
   {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/implicit_declaration',
+    label: "Instagram",
+    href: "https://www.instagram.com/implicit_declaration",
     icon: instagram,
   },
   {
-    label: 'Email',
+    label: "Email",
     href: `mailto:${emailAddress}`,
     icon: google,
   },
   {
-    label: 'GitHub',
-    href: 'https://github.com/Error-404-me',
+    label: "GitHub",
+    href: "https://github.com/Error-404-me",
     icon: github,
   },
   {
-    label: 'Phone',
+    label: "Phone",
     href: `tel:${phoneNumber}`,
     icon: telephone,
   },
-]
+];
 
 function ContactMe() {
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
-  const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('')
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
 
   const updateField = (event) => {
-    const { name, value } = event.target
-    setForm((currentForm) => ({ ...currentForm, [name]: value }))
-  }
+    const { name, value } = event.target;
+    setForm((currentForm) => ({ ...currentForm, [name]: value }));
+  };
 
   const validate = () => {
-    const nextErrors = {}
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const nextErrors = {};
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!form.name.trim()) {
-      nextErrors.name = 'Please enter your name.'
+      nextErrors.name = "Please enter your name.";
     }
 
     if (!emailPattern.test(form.email.trim())) {
-      nextErrors.email = 'Please enter a valid email address.'
+      nextErrors.email = "Please enter a valid email address.";
     }
 
     if (form.message.trim().length < 10) {
-      nextErrors.message = 'Please write at least 10 characters.'
+      nextErrors.message = "Please write at least 10 characters.";
     }
 
-    return nextErrors
-  }
+    return nextErrors;
+  };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const nextErrors = validate()
-    setErrors(nextErrors)
+    const nextErrors = validate();
+    setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
-      setStatus('Please fix the highlighted fields.')
-      return
+      setStatus("Please fix the highlighted fields.");
+      return;
     }
 
-    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name.trim()}`)
+    const subject = encodeURIComponent(
+      `Portfolio inquiry from ${form.name.trim()}`,
+    );
     const body = encodeURIComponent(
       `Name: ${form.name.trim()}\nEmail: ${form.email.trim()}\n\n${form.message.trim()}`,
-    )
+    );
 
-    window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`
-    setStatus('Your email app should open with the message prepared.')
-  }
+    window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
+    setStatus("Your email app should open with the message prepared.");
+  };
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(emailAddress)
-      alert('Email address copied.')
+      await navigator.clipboard.writeText(emailAddress);
+      alert("Email address copied.");
     } catch {
-      setStatus(`Email: ${emailAddress}`)
+      setStatus(`Email: ${emailAddress}`);
     }
-  }
+  };
 
   return (
     <section className="contact_me" id="contact">
@@ -105,7 +107,8 @@ function ContactMe() {
           <p className="eyebrow">Contact</p>
           <h2>Tell me what you are building.</h2>
           <p className="info">
-            Use the form to prepare an email, or reach me directly through the links below.
+            Use the form to prepare an email, or reach me directly through the
+            links below.
           </p>
         </div>
 
@@ -129,7 +132,11 @@ function ContactMe() {
           </aside>
 
           <div className="form">
-            <form action={"https://formsubmit.co/d1d5c1f790f0b5f5d01f1daffc70c5bd "} noValidate method='POST'>
+            <form
+              action={"https://formsubmit.co/d1d5c1f790f0b5f5d01f1daffc70c5bd "}
+              noValidate
+              method="POST"
+            >
               <label htmlFor="name">Name</label>
               <input
                 id="name"
@@ -140,7 +147,7 @@ function ContactMe() {
                 value={form.name}
                 onChange={updateField}
                 aria-invalid={Boolean(errors.name)}
-                aria-describedby={errors.name ? 'name-error' : undefined}
+                aria-describedby={errors.name ? "name-error" : undefined}
               />
               {errors.name && (
                 <span className="form-error" id="name-error">
@@ -158,7 +165,7 @@ function ContactMe() {
                 value={form.email}
                 onChange={updateField}
                 aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? 'email-error' : undefined}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
               {errors.email && (
                 <span className="form-error" id="email-error">
@@ -175,7 +182,7 @@ function ContactMe() {
                 value={form.message}
                 onChange={updateField}
                 aria-invalid={Boolean(errors.message)}
-                aria-describedby={errors.message ? 'message-error' : undefined}
+                aria-describedby={errors.message ? "message-error" : undefined}
               />
               {errors.message && (
                 <span className="form-error" id="message-error">
@@ -204,8 +211,10 @@ function ContactMe() {
                     className="social"
                     href={link.href}
                     aria-label={link.label}
-                    target={link.href.startsWith('http') ? '_blank' : undefined}
-                    rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      link.href.startsWith("http") ? "noreferrer" : undefined
+                    }
                   >
                     <img src={link.icon} alt="" aria-hidden="true" />
                   </a>
@@ -216,7 +225,7 @@ function ContactMe() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default ContactMe
+export default ContactMe;

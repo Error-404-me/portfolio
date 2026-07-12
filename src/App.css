@@ -9,7 +9,9 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 360px),
     radial-gradient(var(--line) 1px, transparent 1px);
   background-repeat: no-repeat, repeat;
-  background-size: auto, 22px 22px;
+  background-size:
+    auto,
+    22px 22px;
   color: var(--text);
 }
 
@@ -65,10 +67,14 @@
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: var(--shadow), 0 0 0 0 #c6f46435;
+    box-shadow:
+      var(--shadow),
+      0 0 0 0 #c6f46435;
   }
   50% {
-    box-shadow: var(--shadow), 0 0 0 6px rgba(245, 189, 79, 0);
+    box-shadow:
+      var(--shadow),
+      0 0 0 6px rgba(245, 189, 79, 0);
   }
 }
 
@@ -204,7 +210,7 @@
 .eyebrow {
   margin: 0 0 12px;
   color: var(--cyan);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -250,7 +256,7 @@
   border-radius: 8px;
   color: var(--accent);
   background: var(--surface-2);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -401,11 +407,11 @@
 /* Small labeled-field tag, echoing the profile dossier fields on the
    More About page (STATUS / FOCUS / BASE). */
 .availability::before {
-  content: 'STATUS';
+  content: "STATUS";
   display: block;
   margin-bottom: 2px;
   color: var(--cyan);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.62rem;
   letter-spacing: 0.14em;
 }
@@ -574,7 +580,7 @@
 
 .skill-topline span {
   color: var(--support);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-weight: 700;
 }
 
@@ -654,7 +660,7 @@
 }
 
 .cover::before {
-  content: 'P.' counter(project-index, decimal-leading-zero);
+  content: "P." counter(project-index, decimal-leading-zero);
   position: absolute;
   top: 10px;
   left: 10px;
@@ -663,7 +669,7 @@
   border-radius: 999px;
   color: var(--text-strong);
   background: rgba(16, 17, 19, 0.6);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
 }
@@ -704,7 +710,7 @@
 
 .project-type {
   color: var(--warm);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.76rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -792,7 +798,7 @@ textarea:focus {
   border-color: var(--cyan);
 }
 
-[aria-invalid='true'] {
+[aria-invalid="true"] {
   border-color: var(--danger);
 }
 
@@ -903,7 +909,7 @@ textarea:focus {
   width: min(1180px, 100%);
   margin: 28px auto 0;
   color: var(--muted);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.8rem;
   letter-spacing: 0.02em;
   text-align: left;
@@ -1368,7 +1374,7 @@ body.resume-open {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1378,7 +1384,10 @@ body.resume-open {
   border-radius: 999px;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
   position: sticky;
   top: 10px;
   right: 10px;
@@ -1412,7 +1421,7 @@ body.resume-open {
 
 .project-details .eyebrow {
   display: inline-block;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1447,12 +1456,12 @@ body.resume-open {
 }
 
 .project-details-image::after {
-  content: 'FIG. 01';
+  content: "FIG. 01";
   position: absolute;
   right: 0.75rem;
   bottom: 0.75rem;
   padding: 0.2rem 0.55rem;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   color: var(--text-strong);
@@ -1474,7 +1483,7 @@ body.resume-open {
 /* ---- highlights ---- */
 
 .project-details h3 {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1498,7 +1507,7 @@ body.resume-open {
 }
 
 .project-details .project-highlights li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0.5em;
@@ -1519,7 +1528,7 @@ body.resume-open {
 }
 
 .project-details .project-tags span {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.74rem;
   padding: 0.3rem 0.65rem;
   color: var(--accent);
@@ -1546,7 +1555,9 @@ body.resume-open {
   background: var(--accent);
   border-radius: 8px;
   text-decoration: none;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 
 .project-details .project-actions a:hover {
@@ -1591,7 +1602,6 @@ body.resume-open {
   }
 }
 
-
 /* ==========================================================================
    More Projects (index / gallery) page
    Same visual language as project-details.css: dotted grid backdrop,
@@ -1621,7 +1631,7 @@ body.resume-open {
 
 .more-projects .eyebrow {
   display: inline-block;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1668,7 +1678,10 @@ body.resume-open {
   overflow: hidden;
   text-decoration: none;
   color: var(--text);
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .mp-card:hover {
@@ -1687,7 +1700,7 @@ body.resume-open {
   top: 0.75rem;
   left: 0.75rem;
   z-index: 1;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   color: var(--text-strong);
@@ -1724,7 +1737,7 @@ body.resume-open {
 }
 
 .mp-type {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1755,7 +1768,7 @@ body.resume-open {
 }
 
 .more-projects .project-tags span {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.7rem;
   padding: 0.25rem 0.55rem;
   color: var(--accent);
@@ -1831,7 +1844,7 @@ body.resume-open {
 
 .more-about .eyebrow {
   display: inline-block;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1903,7 +1916,7 @@ body.resume-open {
 
 .ma-field dt {
   flex: 0 0 70px;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1923,7 +1936,7 @@ body.resume-open {
 }
 
 .more-about h3 {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1979,7 +1992,7 @@ body.resume-open {
 }
 
 .ma-tool-category {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1994,7 +2007,7 @@ body.resume-open {
 }
 
 .more-about .project-tags span {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.74rem;
   padding: 0.3rem 0.65rem;
   color: var(--accent);
@@ -2024,7 +2037,9 @@ body.resume-open {
   background: var(--accent);
   border-radius: 8px;
   text-decoration: none;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
 }
 
 .ma-primary:hover {
@@ -2042,7 +2057,9 @@ body.resume-open {
   border: 1px solid var(--line);
   border-radius: 8px;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .ma-secondary:hover {
@@ -2112,7 +2129,9 @@ body.cursor-fx-active textarea {
   background: var(--accent);
   box-shadow: 0 0 10px rgba(199, 244, 100, 0.55);
   pointer-events: none;
-  transition: opacity 200ms ease, background-color 200ms ease;
+  transition:
+    opacity 200ms ease,
+    background-color 200ms ease;
   will-change: transform;
 }
 
@@ -2134,7 +2153,10 @@ body.cursor-fx-active textarea {
   height: 9px;
   border: 1.5px solid var(--accent);
   opacity: 0.85;
-  transition: border-color 200ms ease, opacity 200ms ease, transform 200ms ease;
+  transition:
+    border-color 200ms ease,
+    opacity 200ms ease,
+    transform 200ms ease;
 }
 
 .tick-tl {
@@ -2222,7 +2244,7 @@ body.cursor-fx-active textarea {
 
 .pdf-filename {
   color: var(--muted);
-  font-family: var(--mono, 'IBM Plex Mono', ui-monospace, monospace);
+  font-family: var(--mono, "IBM Plex Mono", ui-monospace, monospace);
   font-size: 0.85rem;
   letter-spacing: 0.02em;
 }
