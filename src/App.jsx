@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logo from "./assets/img/A_logo.svg";
+import logo from "./assets/img/logo.svg";
 import Home from "./components/Home";
 import About from "./components/About";
 import Projects from "./components/Projects";

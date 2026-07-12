@@ -1,4 +1,4 @@
-import heroPortrait from "../assets/img/resume-profile.png";
+import heroPortrait from "../assets/img/logo.svg";
 
 function Home() {
   function downloadResume() {
@@ -38,7 +38,6 @@ function Home() {
 
       <div className="home hero-visual">
         <div className="portrait-shell">
-          <img src={heroPortrait} alt="Portrait of Argie C. Pasuquin" />
         </div>
         <div className="availability" aria-label="Availability">
           <strong>Open for Full-time / freelance</strong>
