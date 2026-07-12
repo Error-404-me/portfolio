@@ -129,7 +129,7 @@ function ContactMe() {
           </aside>
 
           <div className="form">
-            <form onSubmit={handleSubmit} noValidate>
+            <form action={"https://formsubmit.co/d1d5c1f790f0b5f5d01f1daffc70c5bd "} noValidate method='POST'>
               <label htmlFor="name">Name</label>
               <input
                 id="name"
