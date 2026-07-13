@@ -17,39 +17,44 @@ function Projects() {
         </div>
 
         <div className="p-container">
-          {projects.slice(0, 3).map((project) => (
-            <article className="project-card" key={project.id}>
-              <div className="cover">
-                <div className="screen">
-                  <img
-                    src={project.image}
-                    alt={`${project.title} screenshot`}
-                  />
-                </div>
-              </div>
+          {projects.slice(0, 3).map((project) => {
+            // project.image can be a single source or an array (e.g.
+            // EggCubator) — this card only needs one representative shot.
+            const coverImage = Array.isArray(project.image)
+              ? project.image[0]
+              : project.image;
 
-              <div className="description">
-                <p className="project-type">{project.type}</p>
-                <h3>{project.title}</h3>
-                <p>{project.summary}</p>
-                <div
-                  className="project-tags"
-                  aria-label={`${project.title} tags`}
-                >
-                  {project.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
+            return (
+              <article className="project-card" key={project.id}>
+                <div className="cover">
+                  <div className="screen">
+                    <img src={coverImage} alt={`${project.title} screenshot`} />
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn-project"
-                  onClick={() => navigate(`/project/${project.id}`)}
-                >
-                  View Details
-                </button>
-              </div>
-            </article>
-          ))}
+
+                <div className="description">
+                  <p className="project-type">{project.type}</p>
+                  <h3>{project.title}</h3>
+                  <p className="project-summary">{project.summary}</p>
+                  <div
+                    className="project-tags"
+                    aria-label={`${project.title} tags`}
+                  >
+                    {project.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="btn-project"
+                    onClick={() => navigate(`/project/${project.id}`)}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
 

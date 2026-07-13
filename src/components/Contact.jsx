@@ -3,7 +3,7 @@ import facebook from "../assets/img/facebook.svg";
 import instagram from "../assets/img/instagram.svg";
 import google from "../assets/img/google.svg";
 import github from "../assets/img/github.svg";
-import telephone from "../assets/img/telephone.svg";
+import linkedin from "../assets/img/linkedin.svg";
 
 const emailAddress = "pasuquinargie29@gmail.com";
 const phoneNumber = "+639317852852";
@@ -30,9 +30,9 @@ const contactLinks = [
     icon: github,
   },
   {
-    label: "Phone",
-    href: `tel:${phoneNumber}`,
-    icon: telephone,
+    label: "Linkedin",
+    href: "https://www.linkedin.com/in/argie-pasuquin-06752a356",
+    icon: linkedin,
   },
 ];
 

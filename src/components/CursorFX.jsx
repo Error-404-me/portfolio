@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Anything the reticle should "lock onto" when hovered.
 const INTERACTIVE_SELECTOR =
@@ -14,15 +14,20 @@ function lerp(start, end, t) {
 }
 
 function CursorFX() {
+  const [isActive, setIsActive] = useState(false);
   const dotRef = useRef(null);
   const ringRef = useRef(null);
 
   useEffect(() => {
     const isFinePointer = window.matchMedia("(pointer: fine)").matches;
     if (!isFinePointer) {
-      // Touch / coarse pointers keep the native cursor entirely.
+      // Touch / coarse pointers keep the native cursor entirely, and
+      // isActive stays false so the dot/ring never render at all — see
+      // the render guard below for why that matters.
       return undefined;
     }
+
+    setIsActive(true);
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -138,6 +143,13 @@ function CursorFX() {
       document.body.classList.remove("cursor-fx-active");
     };
   }, []);
+
+  // Without this, the dot/ring would still render (just un-positioned by
+  // JS, since the effect above returns early on touch) and sit visibly
+  // stuck at their default CSS position — top-left corner of the screen.
+  if (!isActive) {
+    return null;
+  }
 
   return (
     <>

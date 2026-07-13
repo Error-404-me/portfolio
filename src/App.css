@@ -694,9 +694,17 @@
   text-align: left;
 }
 
-.description p,
 .project-highlights {
   color: var(--muted);
+}
+
+.project-summary {
+  color: var(--muted);
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .project-type {
@@ -1332,6 +1340,12 @@ body.resume-open {
   font-size: inherit;
 }
 
+/* Shared by every .btn-back close icon across Project Details, More
+   Projects, and More About — defined once here instead of once per page. */
+.arrow-left {
+  font-size: 0.85rem;
+}
+
 /* ==========================================================================
    Project Details page
    Uses the design tokens already defined in :root (index.css) — no new
@@ -1353,8 +1367,6 @@ body.resume-open {
   max-width: 860px;
   margin: 0 auto;
   padding: clamp(1.5rem, 4vw, 3rem);
-  background: transparent;
-  border: none;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -1401,10 +1413,6 @@ body.resume-open {
   outline-offset: 2px;
 }
 
-.arrow-left {
-  font-size: 0.85rem;
-}
-
 /* ---- header ---- */
 
 .project-details-header {
@@ -1436,10 +1444,8 @@ body.resume-open {
   position: relative;
   aspect-ratio: 16 / 9;
   margin: 1.5rem 0 2rem;
-  border: none;
   border-radius: 14px;
   overflow: hidden;
-  background: transparent;
 }
 
 .project-details-image img {
@@ -1484,10 +1490,9 @@ body.resume-open {
    than the single-slide 16:9 frame, so this overrides it. */
 .project-details-image.pd-marquee {
   aspect-ratio: unset;
-  height: auto;
+  height: 220px;
   display: flex;
   align-items: center;
-  background: transparent;
 }
 
 /* Edge fade: two decorative overlays, not a mask, so the card's own
@@ -1532,7 +1537,7 @@ body.resume-open {
 .pd-marquee-item {
   flex: 0 0 auto;
   width: var(--item-width);
-  height: 700px;
+  height: 220px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -1548,6 +1553,12 @@ body.resume-open {
 
 /* Desktop: ~4-6 thumbnails visible at once. */
 @media (min-width: 1025px) {
+  .project-details-image.pd-marquee {
+    height: 260px;
+  }
+  .pd-marquee-item {
+    height: 220px;
+  }
   .pd-marquee-track {
     --item-width: 300px;
     --marquee-gap: 16px;
@@ -1714,15 +1725,9 @@ body.resume-open {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .btn-back,
-  .project-details .project-actions a {
-    transition: none;
-  }
-}
 /* ==========================================================================
    More Projects (index / gallery) page
-   Same visual language as project-details.css: dotted grid backdrop,
+   Same visual language as the Project Details page: dotted grid backdrop,
    monospace labels, lime accent, cyan as secondary. Scoped under
    .more-projects / .mp-* so it doesn't touch other pages' styles.
    ========================================================================== */
@@ -1734,10 +1739,6 @@ body.resume-open {
   background-color: var(--bg);
   background-image: radial-gradient(var(--line) 1px, transparent 1px);
   background-size: 22px 22px;
-}
-
-.arrow-left {
-  font-size: 0.85rem;
 }
 
 /* ---- header ---- */
@@ -1876,6 +1877,11 @@ body.resume-open {
   line-height: 1.55;
   color: var(--muted);
   margin: 0 0 1rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .more-projects .project-tags {
@@ -1919,19 +1925,11 @@ body.resume-open {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mp-card,
-  .mp-cover img,
-  .mp-cta {
-    transition: none;
-  }
-}
-
 /* ==========================================================================
    More About Me page
-   Continues the spec-sheet system from project-details.css / more-projects.css:
-   dotted grid backdrop, mono labels, lime accent, cyan secondary.
-   Signature here: a small "profile dossier" — labeled fields like an ID card.
+   Continues the spec-sheet system from the pages above: dotted grid
+   backdrop, mono labels, lime accent, cyan secondary. Signature here: a
+   small "profile dossier" — labeled fields like an ID card.
    ========================================================================== */
 
 .more-about {
@@ -1948,14 +1946,7 @@ body.resume-open {
   max-width: 860px;
   margin: 0 auto;
   padding: clamp(1.5rem, 4vw, 3rem);
-  background: transparent;
-  border: none;
   border-radius: 20px;
-}
-
-/* ---- back button (self-contained) ---- */
-.arrow-left {
-  font-size: 0.85rem;
 }
 
 /* ---- header ---- */
@@ -2207,13 +2198,6 @@ body.resume-open {
     flex: none;
     width: 100%;
     aspect-ratio: 4 / 3;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ma-primary,
-  .ma-secondary {
-    transition: none;
   }
 }
 
