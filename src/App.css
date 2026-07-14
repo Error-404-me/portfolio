@@ -1525,6 +1525,7 @@ body.resume-open {
   --marquee-gap: 16px;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: var(--marquee-gap);
   width: max-content;
   animation: pd-marquee-scroll var(--marquee-duration, 30s) linear infinite;
