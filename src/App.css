@@ -374,9 +374,8 @@
   background: var(--accent);
   margin: 50px;
 
-  -webkit-mask: url("./assets/img/logo.svg") no-repeat center / contain;
-  mask: url("./assets/img/logo.svg") no-repeat center / contain;
-  scale: 1.8;
+  -webkit-mask: url("./assets/img/logo.svg") center / 180% no-repeat;
+  mask: url("./assets/img/logo.svg") center / 180% no-repeat;
 }
 
 .availability {
