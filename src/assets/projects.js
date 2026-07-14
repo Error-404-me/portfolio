@@ -53,6 +53,9 @@ import f8 from "../assets/greenValleyImages/f8.jpg";
 import f9 from "../assets/greenValleyImages/f9.jpg";
 import f10 from "../assets/greenValleyImages/f10.jpg";
 
+//Expenses Tracker Image/s
+import e1 from "../assets/expensesTrackerImage/e1.png";
+
 export const projects = [
   {
     id: "lakwatserong-pinoy",
@@ -190,7 +193,7 @@ export const projects = [
     id: "expensesTracker",
     title: "Expenses Tracker",
     type: "Productivity UI",
-    image: PortfolioImgPng,
+    image: e1,
     summary:
       'This is the project I made for our "Enhancement Course" where we are going to make a web application that showcasing the ELT and ETL pipeline.',
     tags: ["UI Design", "Python (Flet)", "Sqlite3"],
