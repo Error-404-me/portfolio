@@ -11,11 +11,10 @@ function Home() {
   return (
     <section className="section hero" id="home" aria-labelledby="home-title">
       <div className="info-sec">
-        <p className="eyebrow">Computer Engineering Student</p>
+        <p className="eyebrow">Hi, I am</p>
         <h1 id="home-title">Argie C. Pasuquin</h1>
         <p className="hero-copy">
-          I build practical, responsive web experiences and enjoy connecting
-          software ideas with hardware thinking.
+          I build web and mobile applications from concept to launch.
         </p>
 
         <div className="role" aria-label="Core roles">
@@ -37,11 +36,13 @@ function Home() {
       </div>
 
       <div className="home hero-visual">
-        <div className="portrait-shell">
-        </div>
+        <div className="portrait-shell"></div>
         <div className="availability" aria-label="Availability">
-          <strong>Open for Full-time / freelance</strong>
-          <span>Web interfaces, class projects, and small business sites</span>
+          <strong>Open for opportunities</strong>
+          <span>
+            Web interfaces, class projects, small business sites, and any
+            software and hardware related projects
+          </span>
         </div>
       </div>
     </section>
