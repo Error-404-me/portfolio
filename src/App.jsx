@@ -8,6 +8,7 @@ import facebook from "./assets/img/facebook.svg";
 import instagram from "./assets/img/instagram.svg";
 import google from "./assets/img/google.svg";
 import github from "./assets/img/github.svg";
+import linkedin from "./assets/img/linkedin.svg";
 import list from "./assets/img/list.svg";
 import "./App.css";
 import PdfPreview from "./components/PdfPreview";
@@ -41,6 +42,11 @@ const socialLinks = [
     label: "GitHub",
     href: "https://github.com/Error-404-me",
     icon: github,
+  },
+  {
+    label: "Linkedin",
+    href: "https://www.linkedin.com/in/argie-pasuquin-06752a356",
+    icon: linkedin,
   },
 ];
 
@@ -168,7 +174,8 @@ function App() {
           <div className="footer-brand">
             <h2>Argie C. Pasuquin</h2>
             <p>
-              Programmer, front-end developer, and Computer Engineering student.
+              Software developer, front-end developer, and Computer Engineering
+              student.
             </p>
           </div>
 
