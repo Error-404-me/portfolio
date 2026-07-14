@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 // Anything the reticle should "lock onto" when hovered.
 const INTERACTIVE_SELECTOR =
@@ -14,9 +15,23 @@ function lerp(start, end, t) {
 }
 
 function CursorFX() {
+  const location = useLocation();
   const [isActive, setIsActive] = useState(false);
   const dotRef = useRef(null);
   const ringRef = useRef(null);
+  const stateRef = useRef({
+    mouseX: window.innerWidth / 2,
+    mouseY: window.innerHeight / 2,
+    ringX: window.innerWidth / 2,
+    ringY: window.innerHeight / 2,
+    ringW: REST_SIZE,
+    ringH: REST_SIZE,
+    targetX: window.innerWidth / 2,
+    targetY: window.innerHeight / 2,
+    targetW: REST_SIZE,
+    targetH: REST_SIZE,
+    locked: false,
+  });
 
   useEffect(() => {
     const isFinePointer = window.matchMedia("(pointer: fine)").matches;
@@ -36,19 +51,7 @@ function CursorFX() {
 
     document.body.classList.add("cursor-fx-active");
 
-    const state = {
-      mouseX: window.innerWidth / 2,
-      mouseY: window.innerHeight / 2,
-      ringX: window.innerWidth / 2,
-      ringY: window.innerHeight / 2,
-      ringW: REST_SIZE,
-      ringH: REST_SIZE,
-      targetX: window.innerWidth / 2,
-      targetY: window.innerHeight / 2,
-      targetW: REST_SIZE,
-      targetH: REST_SIZE,
-      locked: false,
-    };
+    const state = stateRef.current;
 
     const placeDot = (x, y) => {
       if (dotRef.current) {
@@ -143,6 +146,23 @@ function CursorFX() {
       document.body.classList.remove("cursor-fx-active");
     };
   }, []);
+
+  // Route changes swap out the page's DOM without ever firing a mouseout
+  // on whatever triggered the navigation (e.g. the "View Details" button
+  // you just clicked) — browsers only fire mouseout from actual pointer
+  // movement, never from an element being removed out from under it. So
+  // a lock can get stranded pointing at a rect that no longer exists,
+  // and stay stuck until the next real hover happens to overwrite it.
+  // Force-clear it on navigation instead of waiting for that.
+  useEffect(() => {
+    const state = stateRef.current;
+    state.locked = false;
+    state.targetX = state.mouseX;
+    state.targetY = state.mouseY;
+    state.targetW = REST_SIZE;
+    state.targetH = REST_SIZE;
+    ringRef.current?.classList.remove("is-locked");
+  }, [location.pathname]);
 
   // Without this, the dot/ring would still render (just un-positioned by
   // JS, since the effect above returns early on touch) and sit visibly
