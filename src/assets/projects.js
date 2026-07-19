@@ -53,22 +53,51 @@ import f8 from "../assets/greenValleyImages/f8.jpg";
 import f9 from "../assets/greenValleyImages/f9.jpg";
 import f10 from "../assets/greenValleyImages/f10.jpg";
 
+// SariCart images imports
+import o1 from "../assets/saricartyImages/1.png";
+import o2 from "../assets/saricartyImages/2.png";
+import r3 from "../assets/saricartyImages/3.png";
+import o4 from "../assets/saricartyImages/4.png";
+import o5 from "../assets/saricartyImages/5.png";
+import o6 from "../assets/saricartyImages/6.png";
+import o7 from "../assets/saricartyImages/7.png";
+import o8 from "../assets/saricartyImages/8.png";
+import o9 from "../assets/saricartyImages/9.png";
+import c10 from "../assets/saricartyImages/10.png";
+import c11 from "../assets/saricartyImages/11.png";
+import c12 from "../assets/saricartyImages/12.png";
+import c13 from "../assets/saricartyImages/13.png";
+import c14 from "../assets/saricartyImages/14.png";
+import c15 from "../assets/saricartyImages/15.png";
+
 //Expenses Tracker Image/s
 import e1 from "../assets/expensesTrackerImage/e1.png";
 
 export const projects = [
   {
-    id: "lakwatserong-pinoy",
-    title: "Lakwatserong Pinoy",
-    type: "Travel guide project",
-    image: TravelGuideImg,
+    id: "saricart",
+    title: "SariCart",
+    type: "E-commerce",
+    image: [o1, o2, r3, o4, o5, o6, o7, o8, o9, c10, c11, c12, c13, c14, c15],
     summary:
-      "A software design project that helps travelers explore local destinations with useful place information.",
-    tags: ["Software Design", "Travel", "Team Project", ".NET", "SSMS"],
+      "SariCart is a full-stack web application that digitizes sari-sari store operations by combining online product browsing, pickup ordering, inventory management, sales analytics, nearby store discovery, customer reviews, and barcode-assisted point-of-sale functionality into a single platform for both store owners and customers.",
+    tags: [
+      "React + Vite",
+      "FastApi",
+      "TailwindCSS",
+      "Axios",
+      "SQLite",
+      "React Router",
+      "Recharts",
+      "Leaflet",
+    ],
     highlights: [
-      "Destination-focused presentation",
-      "Built for a Computer Engineering course project",
-      "Organizes travel ideas into a browsable guide",
+      "Complete End-to-End E-commerce Workflow",
+      "Dual Role-Based Platform",
+      "Full Inventory Management",
+      "Business Analytics Dashboard",
+      "Community Store Discovery",
+      "Full Inventory Management",
     ],
     links: [{ label: "Discuss this project", href: "#contact" }],
   },
@@ -175,17 +204,17 @@ export const projects = [
     ],
   },
   {
-    id: "to-do-app",
-    title: "To-do App",
-    type: "Productivity UI",
-    image: PortfolioImgPng,
+    id: "lakwatserong-pinoy",
+    title: "Lakwatserong Pinoy",
+    type: "Travel guide project",
+    image: TravelGuideImg,
     summary:
-      "A task-management interface concept focused on simple task entry, completion states, and clear daily priorities.",
-    tags: ["JavaScript", "UI Design", "CSS"],
+      "A software design project that helps travelers explore local destinations with useful place information.",
+    tags: ["Software Design", "Travel", "Team Project", ".NET", "SSMS"],
     highlights: [
-      "Task-focused layout",
-      "Reusable interface pattern",
-      "Good practice for state and list rendering",
+      "Destination-focused presentation",
+      "Built for a Computer Engineering course project",
+      "Organizes travel ideas into a browsable guide",
     ],
     links: [{ label: "Discuss this project", href: "#contact" }],
   },
