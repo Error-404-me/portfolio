@@ -7,6 +7,7 @@ import ProjectDetails from "./pages/ProjectDetails.jsx";
 import MoreProjects from "./pages/MoreProjects.jsx";
 import MoreAbout from "./pages/MoreAbout.jsx";
 import CursorFX from "./components/CursorFX.jsx";
+import { Analytics } from "@vercel/analytics/react";
 import "./index.css";
 import App from "./App.jsx";
 
@@ -21,5 +22,6 @@ createRoot(document.getElementById("root")).render(
         <Route path="project/:id" element={<ProjectDetails />} />
       </Routes>
     </BrowserRouter>
+    <Analytics />
   </StrictMode>,
 );
