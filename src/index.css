@@ -71,6 +71,16 @@
   body {
     @apply min-h-svh bg-canvas font-sans text-text antialiased;
     min-width: 320px;
+    overflow-x: hidden;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    max-width: 100%;
+    height: auto;
   }
 
   #root {

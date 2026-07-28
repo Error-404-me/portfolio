@@ -56,7 +56,7 @@ function Home() {
       animate="show"
       className="shell grid min-h-[calc(100svh_-_76px)] grid-cols-1 items-center gap-9 px-6 py-14 md:px-4 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
     >
-      <div className="text-left">
+      <div className="min-w-0 text-left">
         <motion.p variants={fadeUp} className="eyebrow-label">
           Hi, I am
         </motion.p>
@@ -147,7 +147,7 @@ function Home() {
         </motion.div>
       </div>
 
-      <motion.div variants={fadeScale} className="relative">
+      <motion.div variants={fadeScale} className="relative min-w-0">
         <motion.div
           animate={{
             y: [0, -10, 0],

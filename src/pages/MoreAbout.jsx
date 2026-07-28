@@ -157,7 +157,7 @@ function MoreAbout() {
         <i className="bi bi-x-lg text-[0.85rem]"></i>
       </motion.button>
 
-      <div className="relative mx-auto max-w-[860px] rounded-[20px] p-[clamp(1.5rem,4vw,3rem)]">
+      <div className="relative mx-auto max-w-[1200px] rounded-[20px] p-[clamp(1.5rem,4vw,3rem)]">
         <motion.div variants={fadeUp}>
           <p className="eyebrow-label mt-7">About</p>
           <h2 className="mb-3 text-[clamp(1.75rem,4vw,2.65rem)] font-semibold leading-[1.15] tracking-[-0.01em] text-white">
@@ -212,13 +212,13 @@ function MoreAbout() {
           <h3 className="mb-4 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
             Background
           </h3>
-          <p className="mb-4 max-w-[68ch] text-base leading-[1.7] text-text">
+          <p className="mb-4 max-w-[1200px] text-base leading-[1.7] text-text">
             I'm a Computer Engineering student at the University of Cebu – Main
             Campus. The course covers both hardware and software, but I keep
             gravitating toward the software side — especially building things
             people actually use.
           </p>
-          <p className="mb-0 max-w-[68ch] text-base leading-[1.7] text-text">
+          <p className="mb-0 max-w-[1200px] text-base leading-[1.7] text-text">
             I like turning ideas into working projects, whether that means
             designing a website, writing front-end code, or figuring out how
             hardware and software should talk to each other. Right now I'm
@@ -297,15 +297,8 @@ function MoreAbout() {
 
         <motion.div
           variants={fadeUp}
-          className="flex flex-wrap gap-3 border-t border-line pt-7"
+          className="flex flex-wrap flex-col gap-3 pt-7 md:flex-row md:justify-end"
         >
-          <Link
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-canvas no-underline transition duration-150 hover:-translate-y-0.5 hover:bg-cyan focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-            to="/#contact"
-          >
-            Get in touch
-            <i className="bi bi-arrow-right"></i>
-          </Link>
           <motion.a
             whileHover={{
               y: -4,
@@ -314,13 +307,20 @@ function MoreAbout() {
             whileTap={{
               scale: 0.95,
             }}
-            className="inline-flex items-center rounded-lg border border-line px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-muted no-underline transition duration-150 hover:border-accent hover:text-white focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+            className="inline-flex items-center rounded-lg border border-line px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-muted no-underline transition duration-150 hover:border-accent hover:text-white focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 justify-center"
             href="https://github.com/Error-404-me"
             target="_blank"
             rel="noreferrer"
           >
             View GitHub
           </motion.a>
+          <Link
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-canvas no-underline transition duration-150 hover:-translate-y-0.5 hover:bg-cyan focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 justify-center"
+            to="/#contact"
+          >
+            Get in touch
+            <i className="bi bi-arrow-right"></i>
+          </Link>
         </motion.div>
       </div>
     </motion.section>

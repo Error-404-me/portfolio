@@ -131,7 +131,7 @@ function About() {
             />
           </motion.figure>
 
-          <motion.div variants={slideRight} className="text-left">
+          <motion.div variants={slideRight} className="min-w-0 text-left">
             <h3 className="m-0 text-[1.55rem] text-white">Get to know me</h3>
             <p className="mt-4.5 text-muted">
               I like turning ideas into working projects, whether that means
@@ -169,8 +169,8 @@ function About() {
               ))}
             </ul>
 
-            <motion.div variants={fadeUp}>
-              <Link className="btn-primary" to="/moreAbout">
+            <motion.div variants={fadeUp} className="w-[100%]">
+              <Link className="btn-primary w-[100%] md:w-auto" to="/moreAbout">
                 More About Me
                 <i className="bi bi-arrow-right ml-2.5"></i>
               </Link>
@@ -197,8 +197,6 @@ function About() {
                   whileHover={{
                     y: -5,
                     scale: 1.08,
-                    backgroundColor: "#22d3ee",
-                    color: "#000",
                   }}
                   transition={{
                     type: "spring",

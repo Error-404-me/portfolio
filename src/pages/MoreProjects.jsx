@@ -73,7 +73,7 @@ function MoreProjects() {
                 </div>
               </div>
 
-              <span className="flex items-center gap-1.5 border-t border-line px-5 py-3.5 text-[0.85rem] font-semibold text-accent transition-colors duration-200 group-hover:text-cyan">
+              <span className="flex items-center gap-1.5 px-5 py-3.5 text-[0.85rem] font-semibold text-accent transition-colors duration-200 group-hover:text-cyan justify-center">
                 View details
                 <i className="bi bi-arrow-right"></i>
               </span>
