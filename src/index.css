@@ -71,7 +71,10 @@
   body {
     @apply min-h-svh bg-canvas font-sans text-text antialiased;
     min-width: 320px;
-    overflow-x: hidden;
+  }
+
+  #root {
+    overflow-x: clip;
   }
 
   ::-webkit-scrollbar {
