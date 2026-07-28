@@ -1,5 +1,4 @@
 // src/components/Home.jsx
-import heroPortrait from "../assets/img/logo.svg";
 import { motion } from "motion/react";
 
 const container = {
@@ -55,7 +54,7 @@ function Home() {
       variants={container}
       initial="hidden"
       animate="show"
-      className="mx-auto grid min-h-[calc(100svh-76px)] w-[min(1180px,calc(100%-48px))] grid-cols-1 items-center gap-9 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
+      className="shell grid min-h-[calc(100svh_-_76px)] grid-cols-1 items-center gap-9 px-6 py-14 md:px-4 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
     >
       <div className="text-left">
         <motion.p variants={fadeUp} className="eyebrow-label">
@@ -163,11 +162,11 @@ function Home() {
         <motion.div
           initial={{
             opacity: 0,
-            x: 40,
+            y: 20,
           }}
           animate={{
             opacity: 1,
-            x: 0,
+            y: 0,
           }}
           transition={{
             delay: 0.8,
@@ -176,7 +175,7 @@ function Home() {
           whileHover={{
             scale: 1.03,
           }}
-          className="static mt-3 grid ..."
+          className="mt-3 grid gap-1 rounded-2xl border border-line bg-surface-2 p-4"
         >
           <span className="mb-0.5 block font-mono text-[0.62rem] tracking-[0.14em] text-cyan">
             STATUS

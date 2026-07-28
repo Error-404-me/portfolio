@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import logo from "./assets/img/logo.svg";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -328,6 +329,40 @@ function App() {
         fileUrl="/resume.pdf"
         fileName="Argie-Resume.pdf"
       />
+
+      {createPortal(
+        <motion.button
+          type="button"
+          onClick={scrollToTop}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: showBackTop ? 1 : 0,
+            scale: showBackTop ? 1 : 0.8,
+            y: showBackTop ? 0 : 20,
+          }}
+          transition={{ duration: 0.3 }}
+          whileHover={{ scale: 1.1, rotate: -5 }}
+          whileTap={{ scale: 0.9 }}
+          style={{ pointerEvents: showBackTop ? "auto" : "none" }}
+          className="fixed right-[22px] bottom-[22px] z-40 flex h-[52px] w-[52px] items-center justify-center rounded-full border border-accent/55 bg-accent text-[#121416]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={28}
+            height={28}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 15l8-8 8 8" />
+          </svg>
+        </motion.button>,
+        document.body,
+      )}
     </div>
   );
 }
