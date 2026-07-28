@@ -1,3 +1,4 @@
+// src/components/PdfPreview.jsx
 import { useEffect, useState } from "react";
 
 function PdfPreview({
@@ -12,8 +13,6 @@ function PdfPreview({
   const isOpen = isControlled ? open : internalOpen;
   const closeOverlay = isControlled ? onClose : () => setInternalOpen(false);
 
-  // Only manage scroll-lock / Escape ourselves when self-contained.
-  // In controlled mode the parent already owns this (see App.jsx).
   useEffect(() => {
     if (isControlled || !isOpen) return undefined;
 
@@ -34,7 +33,7 @@ function PdfPreview({
       {!isControlled && (
         <button
           type="button"
-          className="btn-resume"
+          className="btn-secondary"
           onClick={() => setInternalOpen(true)}
         >
           {triggerLabel}
@@ -43,18 +42,20 @@ function PdfPreview({
 
       {isOpen && (
         <div
-          className="pdf-overlay"
+          className="fixed inset-0 z-[200] flex flex-col bg-black/88"
           role="dialog"
           aria-modal="true"
           aria-label={`${fileName} preview`}
         >
-          <div className="pdf-actions">
-            <span className="pdf-filename">{fileName}</span>
+          <div className="flex flex-col flex-wrap items-start justify-between gap-3 border-b border-line bg-canvas/94 px-4 py-3 sm:flex-row sm:items-center">
+            <span className="font-mono text-[0.85rem] tracking-[0.02em] text-muted">
+              {fileName}
+            </span>
 
-            <div className="pdf-actions-buttons">
+            <div className="flex flex-wrap gap-2.5">
               <button
                 type="button"
-                className="resume-action secondary"
+                className="btn-secondary"
                 onClick={closeOverlay}
               >
                 Close
@@ -62,8 +63,12 @@ function PdfPreview({
             </div>
           </div>
 
-          <div className="pdf-frame-shell">
-            <iframe src={fileUrl} title={fileName} className="pdf-frame" />
+          <div className="flex-1 p-[10px] sm:p-4">
+            <iframe
+              src={fileUrl}
+              title={fileName}
+              className="h-full w-full rounded-lg border border-line bg-white"
+            />
           </div>
         </div>
       )}

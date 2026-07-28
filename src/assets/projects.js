@@ -97,9 +97,11 @@ export const projects = [
       "Full Inventory Management",
       "Business Analytics Dashboard",
       "Community Store Discovery",
-      "Full Inventory Management",
     ],
-    links: [{ label: "Discuss this project", href: "#contact" }],
+    links: [
+      { label: "Discuss this project", href: "#contact" },
+      { label: "Live link", href: "https://saricart.vercel.app" },
+    ],
   },
   {
     id: "eggCubator",
@@ -192,11 +194,11 @@ export const projects = [
     image: PortfolioImg,
     summary:
       "A responsive personal website that presents profile details, projects, contact options, and a printable resume.",
-    tags: ["React", "Vite", "CSS"],
+    tags: ["React", "Vite", "Tailwind CSS"],
     highlights: [
       "Single-page navigation with mobile support",
       "Project details and contact workflow",
-      "Printable resume overlay",
+      "Can preview or download resume.",
     ],
     links: [
       { label: "Open section", href: "#home" },

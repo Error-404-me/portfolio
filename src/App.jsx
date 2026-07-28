@@ -1,3 +1,4 @@
+// src/App.jsx
 import { useEffect, useState } from "react";
 import logo from "./assets/img/logo.svg";
 import Home from "./components/Home";
@@ -10,8 +11,8 @@ import google from "./assets/img/google.svg";
 import github from "./assets/img/github.svg";
 import linkedin from "./assets/img/linkedin.svg";
 import list from "./assets/img/list.svg";
-import "./App.css";
 import PdfPreview from "./components/PdfPreview";
+import { motion } from "motion/react";
 
 const contactEmail = "pasuquinargie29@gmail.com";
 
@@ -33,16 +34,8 @@ const socialLinks = [
     href: "https://www.instagram.com/implicit_declaration",
     icon: instagram,
   },
-  {
-    label: "Email",
-    href: `mailto:${contactEmail}`,
-    icon: google,
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/Error-404-me",
-    icon: github,
-  },
+  { label: "Email", href: `mailto:${contactEmail}`, icon: google },
+  { label: "GitHub", href: "https://github.com/Error-404-me", icon: github },
   {
     label: "Linkedin",
     href: "https://www.linkedin.com/in/argie-pasuquin-06752a356",
@@ -50,13 +43,32 @@ const socialLinks = [
   },
 ];
 
+const navContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const navItem = {
+  hidden: {
+    opacity: 0,
+    y: -10,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [showBackTop, setShowBackTop] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  // Effect 1 — back to top button
   useEffect(() => {
     const handleScroll = () => setShowBackTop(window.scrollY > 520);
     handleScroll();
@@ -64,7 +76,6 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Effect 2 — active nav
   useEffect(() => {
     const handleScroll = () => {
       const headerOffset = 100;
@@ -86,8 +97,6 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Effect 3 — resume dialog (scroll-lock + Escape). PdfPreview is used in
-  // controlled mode below, so this is the single source of truth for both.
   useEffect(() => {
     document.body.classList.toggle("resume-open", isResumeOpen);
     const handleKeyDown = (e) => {
@@ -110,106 +119,192 @@ function App() {
     setIsMenuOpen(false);
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const navLinkClass = (id) =>
+    `inline-flex w-full min-h-10 items-center justify-start rounded-lg border border-transparent px-3.5 text-[0.94rem] no-underline transition-colors md:w-auto md:justify-center ${
+      activeSection === id
+        ? "border-cyan/35 bg-accent/10 text-white"
+        : "text-muted hover:border-cyan/35 hover:bg-accent/10 hover:text-white"
+    }`;
 
   return (
-    <div className="parent" id="parent">
-      <header className="header">
-        <a
+    <div className="relative min-h-svh text-text bg-canvas [background-image:linear-gradient(180deg,rgba(255,255,255,.035),transparent_360px),radial-gradient(var(--color-line)_1px,transparent_1px)] [background-repeat:no-repeat,repeat] [background-size:auto,22px_22px]">
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.6,
+          ease: "easeOut",
+        }}
+        className="sticky top-0 z-50 flex min-h-[76px] items-center justify-between border-b border-line bg-canvas/90 px-7 backdrop-blur-xl"
+      >
+        <motion.a
           href="#home"
-          className="logo-name"
           onClick={closeMenu}
           aria-label="Go to home"
+          className="group inline-flex items-center gap-3 font-extrabold text-white no-underline"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <span className="logo">
-            <img src={logo} alt="Argie Pasuquin logo" />
+          <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-accent/40 bg-white transition-transform duration-300 group-hover:-rotate-[8deg] group-hover:scale-[1.06]">
+            <img
+              src={logo}
+              alt="Argie Pasuquin logo"
+              className="h-full w-full object-cover"
+            />
           </span>
           <span>Pasuquin</span>
-        </a>
+        </motion.a>
 
         <button
-          className="menu"
+          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-line bg-surface md:hidden"
           type="button"
           aria-expanded={isMenuOpen}
           aria-controls="main-menu"
           aria-label="Toggle navigation menu"
           onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
         >
-          <img src={list} alt="" aria-hidden="true" />
+          <img
+            src={list}
+            alt=""
+            aria-hidden="true"
+            className="h-6 w-6 invert"
+          />
         </button>
 
-        <nav
-          className={`dropdown ${isMenuOpen ? "is-open" : ""}`}
+        <motion.nav
           id="main-menu"
+          variants={navContainer}
+          initial="hidden"
+          animate="show"
+          className={`absolute inset-x-4 top-[calc(100%+8px)] z-40 grid gap-1.5 overflow-hidden rounded-lg border bg-surface shadow-card transition-[max-height,opacity,padding] duration-200
+  md:static md:flex md:max-h-none md:items-center md:gap-2 md:overflow-visible
+  md:border-0 md:bg-transparent md:p-0 md:opacity-100 md:pointer-events-auto
+  md:shadow-none md:transition-none
+  ${
+    isMenuOpen
+      ? "max-h-[380px] border-line p-2 pointer-events-auto opacity-100"
+      : "pointer-events-none max-h-0 border-transparent p-0 opacity-0"
+  }`}
         >
           {navItems.map((item) => (
-            <a
+            <motion.a
               key={item.id}
-              className={`nav-link ${activeSection === item.id ? "active" : ""}`}
+              variants={navItem}
+              whileHover={{
+                y: -2,
+                scale: 1.05,
+              }}
+              whileTap={{ scale: 0.95 }}
+              className={navLinkClass(item.id)}
               href={item.href}
               onClick={closeMenu}
             >
               {item.label}
-            </a>
+            </motion.a>
           ))}
-          <button
+          <motion.button
+            variants={navItem}
+            whileHover={{
+              y: -2,
+              scale: 1.05,
+            }}
+            whileTap={{ scale: 0.95 }}
             type="button"
-            className="nav-link nav-button"
             onClick={openResume}
+            className={`${navLinkClass("").replace(
+              "text-muted",
+              "",
+            )} cursor-pointer bg-accent text-[#121416] hover:bg-cyan`}
           >
             View Resume
-          </button>
-        </nav>
-      </header>
+          </motion.button>
+        </motion.nav>
+      </motion.header>
 
       <Home />
       <About />
       <Projects />
       <ContactMe />
 
-      <footer className="footer">
-        <div className="footer-container">
-          <div className="footer-brand">
-            <h2>Argie C. Pasuquin</h2>
-            <p>
+      <motion.footer
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="border-t border-line bg-[#0b0c0f] px-6 pt-11 pb-7"
+      >
+        <div className="shell grid grid-cols-1 items-center gap-6 text-left lg:grid-cols-[minmax(0,1fr)_auto_minmax(180px,auto)]">
+          <div>
+            <h2 className="m-0 text-xl text-white">Argie C. Pasuquin</h2>
+            <p className="mt-1.5 text-muted">
               Software developer, front-end developer, and Computer Engineering
               student.
             </p>
           </div>
 
-          <div className="footer-socials" aria-label="Social links">
+          <div className="flex flex-wrap gap-2.5" aria-label="Social links">
             {socialLinks.map((link) => (
-              <a
+              <motion.a
                 key={link.label}
                 href={link.href}
-                aria-label={link.label}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                whileHover={{
+                  y: -6,
+                  scale: 1.12,
+                }}
+                whileTap={{
+                  scale: 0.9,
+                }}
+                className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-line bg-surface-2"
               >
-                <img src={link.icon} alt="" aria-hidden="true" />
-              </a>
+                <img
+                  src={link.icon}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-5 w-5 invert"
+                />
+              </motion.a>
             ))}
           </div>
 
-          <div className="footer-contact">
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          <div>
+            <a
+              href={`mailto:${contactEmail}`}
+              className="text-accent no-underline break-words"
+            >
+              {contactEmail}
+            </a>
           </div>
         </div>
-        <div className="footer-bottom">
+        <div className="shell mt-7 text-left font-mono text-[0.8rem] tracking-[0.02em] text-muted">
           <p>
             &copy; {new Date().getFullYear()} Argie C. Pasuquin. All rights
             reserved.
           </p>
         </div>
-      </footer>
+      </motion.footer>
 
-      <button
+      <motion.button
         type="button"
-        className={`back-top ${showBackTop ? "is-visible" : ""}`}
-        aria-label="Back to top"
         onClick={scrollToTop}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{
+          opacity: showBackTop ? 1 : 0,
+          scale: showBackTop ? 1 : 0.8,
+          y: showBackTop ? 0 : 20,
+        }}
+        transition={{
+          duration: 0.3,
+        }}
+        whileHover={{
+          scale: 1.1,
+          rotate: -5,
+        }}
+        whileTap={{
+          scale: 0.9,
+        }}
+        className="fixed right-[22px] bottom-[22px] z-40 flex h-[52px] w-[52px] items-center justify-center rounded-full border border-accent/55 bg-accent text-[#121416]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +320,7 @@ function App() {
         >
           <path d="M4 15l8-8 8 8" />
         </svg>
-      </button>
+      </motion.button>
 
       <PdfPreview
         open={isResumeOpen}
