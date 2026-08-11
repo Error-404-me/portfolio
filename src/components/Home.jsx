@@ -54,10 +54,10 @@ function Home() {
       variants={container}
       initial="hidden"
       animate="show"
-      className="shell grid min-h-[calc(100svh_-_76px)] grid-cols-1 items-center gap-9 px-6 py-14 md:px-4 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
+      className="shell grid min-h-[calc(100svh_-_76px)] grid-cols-1 items-center gap-9 px-6 py-14 md:px-4 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14"
     >
       <div className="min-w-0 text-left">
-        <motion.p variants={fadeUp} className="eyebrow-label">
+        <motion.p variants={fadeUp} className="eyebrow-label text-accent">
           Hi, I am
         </motion.p>
         <motion.h1
@@ -71,7 +71,8 @@ function Home() {
           variants={fadeUp}
           className="mt-6 max-w-[650px] text-[1.16rem] text-muted"
         >
-          I build web and mobile applications from concept to launch.
+          Building practical web, mobile, and IoT solutions for real-world
+          problems.
         </motion.p>
 
         <motion.div variants={fadeUp} className="mt-7 flex flex-wrap gap-2.5">
@@ -91,7 +92,7 @@ function Home() {
               scale: 1.05,
             }}
           >
-            Designer
+            Front-End Developer
           </motion.span>
           <motion.span
             className="chip"
@@ -100,7 +101,7 @@ function Home() {
               scale: 1.05,
             }}
           >
-            Freelancer
+            IoT / Embedded Systems
           </motion.span>
         </motion.div>
 
@@ -147,7 +148,10 @@ function Home() {
         </motion.div>
       </div>
 
-      <motion.div variants={fadeScale} className="relative min-w-0">
+      <motion.div
+        variants={fadeScale}
+        className="relative mx-auto w-full max-w-[380px] min-w-0 lg:mx-0 lg:max-w-[340px]"
+      >
         <motion.div
           animate={{
             y: [0, -10, 0],
@@ -157,7 +161,7 @@ function Home() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="mask-portrait mx-[50px] aspect-square overflow-hidden rounded-lg border border-cyan/35 bg-accent"
+          className="mask-portrait mx-auto aspect-square w-full max-w-[260px] overflow-hidden rounded-lg border border-cyan/35 bg-accent sm:max-w-[300px]"
         />
         <motion.div
           initial={{
@@ -180,10 +184,10 @@ function Home() {
           <span className="mb-0.5 block font-mono text-[0.62rem] tracking-[0.14em] text-cyan">
             STATUS
           </span>
-          <strong>Open for opportunities</strong>
+          <strong>Open to opportunities</strong>
           <span className="text-[0.9rem] text-muted">
-            Web interfaces, class projects, small business sites, and any
-            software and hardware related projects
+            Available for web applications, freelance work, internships, and select
+            IoT/embedded projects.
           </span>
         </motion.div>
       </motion.div>

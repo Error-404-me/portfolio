@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { projects } from "../assets/projects";
 import { motion } from "motion/react";
 
+const MAX_VISIBLE_TAGS = 4;
+
 const container = {
   hidden: {},
   show: {
@@ -54,10 +56,10 @@ function Projects() {
       <div className="shell">
         <motion.div variants={fadeUp} className="section-heading">
           <p className="eyebrow-label">Projects</p>
-          <h2 className="heading-lg">A few things I have built or designed.</h2>
+          <h2 className="heading-lg">Things I've built.</h2>
           <p className="mt-4 text-muted">
-            Each project has a focused preview, details, and next-step links so
-            visitors can understand the work without guessing.
+            A few real projects with the problem, the build, and the stack
+            behind each one — full details are one click away.
           </p>
         </motion.div>
 
@@ -66,6 +68,12 @@ function Projects() {
             const coverImage = Array.isArray(project.image)
               ? project.image[0]
               : project.image;
+            const visibleTags = project.tags.slice(0, MAX_VISIBLE_TAGS);
+            const hiddenTagCount = project.tags.length - visibleTags.length;
+            const liveLink = project.links.find(
+              (link) =>
+                link.href.startsWith("http") && !/github/i.test(link.label),
+            );
 
             return (
               <motion.article
@@ -100,12 +108,14 @@ function Projects() {
                   <h3 className="text-lg font-bold text-white">
                     {project.title}
                   </h3>
-                  <p className="text-muted line-clamp-4">{project.summary}</p>
+                  <p className="text-muted line-clamp-3">
+                    {project.shortSummary ?? project.summary}
+                  </p>
                   <div
                     className="flex flex-wrap gap-2"
-                    aria-label={`${project.title} tags`}
+                    aria-label={`${project.title} key technologies`}
                   >
-                    {project.tags.map((tag) => (
+                    {visibleTags.map((tag) => (
                       <motion.span
                         key={tag}
                         className="tag-pill"
@@ -121,24 +131,68 @@ function Projects() {
                         {tag}
                       </motion.span>
                     ))}
+                    {hiddenTagCount > 0 && (
+                      <span
+                        className="tag-pill text-muted"
+                        aria-label={`and ${hiddenTagCount} more technologies`}
+                      >
+                        +{hiddenTagCount}
+                      </span>
+                    )}
                   </div>
-                  <motion.button
-                    type="button"
-                    className="btn-secondary mt-auto w-full"
-                    onClick={() => navigate(`/project/${project.id}`)}
-                    whileHover={{
-                      scale: 1.03,
-                    }}
-                    whileTap={{
-                      scale: 0.95,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                    }}
-                  >
-                    View Details
-                  </motion.button>
+
+                  <div className="mt-auto flex flex-col gap-3">
+                    {(project.githubUrl || liveLink) && (
+                      <div
+                        className="flex items-center gap-2"
+                        aria-label={`${project.title} external links`}
+                      >
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${project.title} GitHub repository`}
+                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition duration-150 hover:border-accent hover:text-accent"
+                          >
+                            <i className="bi bi-github" aria-hidden="true"></i>
+                          </a>
+                        )}
+                        {liveLink && (
+                          <a
+                            href={liveLink.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${project.title} live demo`}
+                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition duration-150 hover:border-accent hover:text-accent"
+                          >
+                            <i
+                              className="bi bi-box-arrow-up-right"
+                              aria-hidden="true"
+                            ></i>
+                          </a>
+                        )}
+                      </div>
+                    )}
+
+                    <motion.button
+                      type="button"
+                      className="btn-secondary w-full"
+                      onClick={() => navigate(`/project/${project.id}`)}
+                      whileHover={{
+                        scale: 1.03,
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                      }}
+                    >
+                      View Details
+                    </motion.button>
+                  </div>
                 </div>
               </motion.article>
             );

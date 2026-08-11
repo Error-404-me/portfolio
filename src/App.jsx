@@ -19,8 +19,8 @@ const contactEmail = "pasuquinargie29@gmail.com";
 
 const navItems = [
   { label: "Home", href: "#home", id: "home" },
-  { label: "About", href: "#about", id: "about" },
   { label: "Projects", href: "#projects", id: "projects" },
+  { label: "About", href: "#about", id: "about" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
 
@@ -152,10 +152,10 @@ function App() {
             <img
               src={logo}
               alt="Argie Pasuquin logo"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover bg-accent"
             />
           </span>
-          <span>Pasuquin</span>
+          <span className="text-accent">Pasuquin</span>
         </motion.a>
 
         <button
@@ -225,8 +225,8 @@ function App() {
       </motion.header>
 
       <Home />
-      <About />
       <Projects />
+      <About />
       <ContactMe />
 
       <motion.footer
@@ -240,8 +240,7 @@ function App() {
           <div>
             <h2 className="m-0 text-xl text-white">Argie C. Pasuquin</h2>
             <p className="mt-1.5 text-muted">
-              Software developer, front-end developer, and Computer Engineering
-              student.
+              Software Developer — front-end, mobile, and IoT projects.
             </p>
           </div>
 

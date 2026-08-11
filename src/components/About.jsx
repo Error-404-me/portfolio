@@ -1,25 +1,8 @@
 // src/components/About.jsx
 import { Link } from "react-router-dom";
 import profileImage from "../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png";
+import { skillCategories } from "../assets/skills";
 import { motion } from "motion/react";
-
-const skills = [
-  { name: "HTML" },
-  { name: "CSS" },
-  { name: "JavaScript" },
-  { name: "React.JS" },
-  { name: "Python" },
-  { name: "WordPress" },
-  { name: "C++" },
-  { name: "Bootstrap" },
-  { name: "Embedded System" },
-  { name: "GitHub Actions" },
-  { name: "Git/GitHub" },
-  { name: "Firebase" },
-  { name: "Supabase" },
-  { name: "Flet" },
-  { name: "Mobile App Development" },
-];
 
 const strengths = [
   "Adaptable",
@@ -127,7 +110,7 @@ function About() {
               }}
               className="h-full min-h-[320px] w-full object-cover object-top md:min-h-[420px]"
               src={profileImage}
-              alt="Argie working profile"
+              alt="Argie Pasuquin working on a development project"
             />
           </motion.figure>
 
@@ -135,13 +118,14 @@ function About() {
             <h3 className="m-0 text-[1.55rem] text-white">Get to know me</h3>
             <p className="mt-4.5 text-muted">
               I like turning ideas into working projects, whether that means
-              designing a website, writing front-end code, or thinking through
-              how hardware and software can work together.
+              designing a website, writing front-end code, or connecting
+              software and hardware so they can work together.
             </p>
             <p className="mt-4.5 text-muted">
-              I am currently sharpening my React, JavaScript, Python, and design
-              skills. I am also open to freelance or junior opportunities where
-              I can contribute, keep learning, and grow with real projects.
+              I'm currently sharpening my React, JavaScript, Python, and
+              UI/design skills across full-stack and IoT projects, and I'm open
+              to freelance or junior opportunities where I can contribute, keep
+              learning, and grow with real projects.
             </p>
 
             <ul
@@ -178,36 +162,42 @@ function About() {
           </motion.div>
         </div>
 
-        <div className="mt-20 grid grid-rows-[auto_auto] gap-2.5 pt-9">
-          <motion.div variants={fadeUp} className="text-left">
+        <div className="mt-20 pt-9">
+          <motion.div variants={fadeUp} className="mb-6 text-left">
             <p className="eyebrow-label">My Skills</p>
             <h3 className="heading-lg">Tools I am building with</h3>
           </motion.div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[15px]">
-            <ul
-              className="my-6.5 flex list-none flex-wrap gap-2.5 p-0"
-              aria-label="Personal strengths"
-            >
-              {skills.map((skill) => (
-                <motion.li
-                  key={skill.name}
-                  className="chip"
-                  variants={fadeUp}
-                  whileHover={{
-                    y: -5,
-                    scale: 1.08,
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 18,
-                  }}
+          <div className="grid gap-6 sm:grid-cols-2">
+            {skillCategories.map((group) => (
+              <motion.div key={group.category} variants={fadeUp}>
+                <p className="mb-2.5 font-mono text-[0.72rem] tracking-[0.08em] text-cyan uppercase">
+                  {group.category}
+                </p>
+                <ul
+                  className="flex list-none flex-wrap gap-2 p-0"
+                  aria-label={`${group.category} skills`}
                 >
-                  {skill.name}
-                </motion.li>
-              ))}
-            </ul>
+                  {group.items.map((item) => (
+                    <motion.li
+                      key={item}
+                      className="chip"
+                      whileHover={{
+                        y: -4,
+                        scale: 1.06,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 18,
+                      }}
+                    >
+                      {item}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

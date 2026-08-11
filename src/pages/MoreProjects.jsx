@@ -1,9 +1,15 @@
 // src/pages/MoreProjects.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { projects } from "../assets/projects";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 function MoreProjects() {
   const navigate = useNavigate();
+
+  useDocumentTitle(
+    "All Projects | Argie C. Pasuquin",
+    "Browse every web, mobile, and IoT project built by Argie C. Pasuquin.",
+  );
 
   return (
     <section className="min-h-screen bg-canvas pb-12 [background-image:radial-gradient(var(--color-line)_1px,transparent_1px)] bg-[length:22px_22px]">
@@ -11,6 +17,7 @@ function MoreProjects() {
         type="button"
         className="sticky top-2.5 right-2.5 z-[9999] ml-auto flex animate-fade-up animate-pulse-glow items-center gap-2 rounded-full border border-line bg-canvas px-4 py-2 font-mono text-[0.78rem] tracking-[0.08em] text-muted uppercase transition duration-200 [animation-delay:500ms] hover:-translate-x-[3px] hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
         onClick={() => navigate("/")}
+        aria-label="Back to home"
       >
         <i className="bi bi-x-lg text-[0.85rem]"></i>
       </button>
@@ -58,7 +65,7 @@ function MoreProjects() {
                   {project.title}
                 </h3>
                 <p className="mb-4 flex-1 text-[0.92rem] leading-[1.55] text-muted line-clamp-4">
-                  {project.summary}
+                  + {project.shortSummary ?? project.summary}
                 </p>
 
                 <div

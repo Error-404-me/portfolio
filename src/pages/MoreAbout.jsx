@@ -1,11 +1,13 @@
 // src/pages/MoreAbout.jsx
 import { Link, useNavigate } from "react-router-dom";
 import profileImage from "../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png";
+import { skillCategories } from "../assets/skills";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { motion } from "motion/react";
 
 const profileFields = [
   { label: "Status", value: "Open to freelance & junior roles" },
-  { label: "Focus", value: "Front-end engineering & product design" },
+  { label: "Focus", value: "Software Development & product design" },
   {
     label: "Base",
     value: "Computer Engineering, University of Cebu – Main Campus",
@@ -35,31 +37,6 @@ const strengthDetails = [
   {
     name: "Resourceful",
     detail: "Works with what is available and finds a way through blockers.",
-  },
-];
-
-const toolbox = [
-  {
-    category: "Languages",
-    items: ["HTML", "CSS", "JavaScript", "Python", "C++"],
-  },
-  {
-    category: "Frameworks & Libraries",
-    items: ["React.JS", "Bootstrap", "Flet"],
-  },
-  {
-    category: "Platforms & Tools",
-    items: [
-      "Git/GitHub",
-      "GitHub Actions",
-      "WordPress",
-      "Firebase",
-      "Supabase",
-    ],
-  },
-  {
-    category: "Hardware & Mobile",
-    items: ["Embedded System", "Mobile App Development"],
   },
 ];
 
@@ -134,6 +111,11 @@ const scaleIn = {
 
 function MoreAbout() {
   const navigate = useNavigate();
+
+  useDocumentTitle(
+    "More About Me | Argie C. Pasuquin",
+    "Background, skills, and how Argie C. Pasuquin works as a developer.",
+  );
 
   return (
     <motion.section
@@ -263,7 +245,7 @@ function MoreAbout() {
             Toolbox
           </h3>
           <div className="grid gap-5">
-            {toolbox.map((group) => (
+            {skillCategories.map((group) => (
               <div key={group.category}>
                 <p className="mb-2.5 font-mono text-[0.72rem] tracking-[0.08em] text-cyan uppercase">
                   {group.category}

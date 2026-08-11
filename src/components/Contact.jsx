@@ -326,7 +326,7 @@ function ContactMe() {
                   stiffness: 300,
                 }}
               >
-                Send With Email App
+                Send Message
               </motion.button>
 
               <p
