@@ -1,33 +1,49 @@
-// src/assets/skills.js
-// Single source of truth for the "general skills" list shown on the
-// homepage (About.jsx) and the full about page (MoreAbout.jsx).
-// Only technologies already present elsewhere in the portfolio.
+import {
+  CodeXml,
+  Server,
+  Database,
+  Smartphone,
+  Cpu,
+  Wrench,
+} from "lucide-react";
 
 export const skillCategories = [
   {
-    category: "Frontend",
-    items: ["HTML", "CSS", "JavaScript", "React.JS", "Bootstrap"],
-  },
-  {
-    category: "Backend & Languages",
-    items: ["Python", "C++"],
-  },
-  {
-    category: "Databases & Platforms",
-    items: ["Firebase", "Supabase"],
-  },
-  {
-    category: "Mobile & Embedded",
+    category: "Web Development",
     items: [
-      "Flet",
-      "Mobile App Development",
-      "Embedded System",
-      "Kivy",
-      "KivyMD",
+      "HTML",
+      "CSS",
+      "React.JS",
+      "Bootstrap",
+      "TailwindCSS",
+      "WordPress",
+      "Javascript",
     ],
+    icon: CodeXml,
   },
   {
-    category: "Tools & Workflow",
-    items: ["Git/GitHub", "GitHub Actions", "WordPress"],
+    category: "Backend & Programming",
+    items: ["Python", "C++", "FastAPI"],
+    icon: Server,
+  },
+  {
+    category: "Databases & Cloud Services",
+    items: ["Firebase", "Supabase", "Neon", "PostgresSQL"],
+    icon: Database,
+  },
+  {
+    category: "Embedded Systems",
+    items: ["Embedded System", "C++"],
+    icon: Cpu,
+  },
+  {
+    category: "Mobile App Development",
+    items: ["React Native", "Flet", "Kivy", "KivyMD"],
+    icon: Smartphone,
+  },
+  {
+    category: "Development Tools & AI",
+    items: ["Git/GitHub", "GitHub Actions", "WordPress", "ChatGPT", "Claude"],
+    icon: Wrench,
   },
 ];

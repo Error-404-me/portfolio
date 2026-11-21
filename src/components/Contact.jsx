@@ -1,110 +1,58 @@
-// src/components/Contact.jsx
 import { useState } from "react";
-import facebook from "../assets/img/facebook.svg";
-import instagram from "../assets/img/instagram.svg";
-import google from "../assets/img/google.svg";
-import github from "../assets/img/github.svg";
-import linkedin from "../assets/img/linkedin.svg";
-import { motion } from "motion/react";
+import Mail from "lucide-react/icons/mail";
+import MapPin from "lucide-react/icons/map-pin";
+import Phone from "lucide-react/icons/phone";
+import { motion, useReducedMotion } from "motion/react";
+import { emailAddress, socialLinks } from "../data/socialLinks";
 
-const emailAddress = "pasuquinargie29@gmail.com";
 const phoneNumber = "+639317852852";
 
-const contactLinks = [
+const inputClass =
+  "w-full rounded-lg border border-line bg-canvas px-3.5 py-3 text-white placeholder:text-muted/70 focus:border-accent focus:outline-2 focus:outline-accent/30 aria-invalid:border-danger";
+
+const contactMethods = [
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/argie.pasuquin.2025",
-    icon: facebook,
+    label: "Email",
+    value: emailAddress,
+    href: `mailto:${emailAddress}`,
+    icon: Mail,
   },
   {
-    label: "Instagram",
-    href: "https://www.instagram.com/implicit_declaration",
-    icon: instagram,
+    label: "Phone",
+    value: "+63 931 785 2852",
+    href: `tel:${phoneNumber}`,
+    icon: Phone,
   },
-  { label: "Email", href: `mailto:${emailAddress}`, icon: google },
-  { label: "GitHub", href: "https://github.com/Error-404-me", icon: github },
   {
-    label: "Linkedin",
-    href: "https://www.linkedin.com/in/argie-pasuquin-06752a356",
-    icon: linkedin,
+    label: "Location",
+    value: "Balidbid, Santa Fe, Cebu",
+    icon: MapPin,
   },
 ];
 
-const inputClass =
-  "w-full rounded-lg border border-line bg-[#0b0c0f] px-3.5 py-3 text-white resize-y focus:outline-2 focus:outline-cyan/45 focus:border-cyan aria-invalid:border-danger";
-
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.15,
+function createRevealVariants(prefersReducedMotion, delay = 0) {
+  return {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : 10,
     },
-  },
-};
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : 0.4,
+        delay: prefersReducedMotion ? 0 : delay,
+        ease: "easeOut",
+      },
     },
-  },
-};
-
-const slideLeft = {
-  hidden: {
-    opacity: 0,
-    x: -50,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
-  },
-};
-
-const slideRight = {
-  hidden: {
-    opacity: 0,
-    x: 50,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
-  },
-};
-
-const socialItem = {
-  hidden: {
-    opacity: 0,
-    scale: 0.5,
-  },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.4,
-    },
-  },
-};
+  };
+}
 
 function ContactMe() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("");
+  const prefersReducedMotion = useReducedMotion();
 
   const updateField = (event) => {
     const { name, value } = event.target;
@@ -149,242 +97,251 @@ function ContactMe() {
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(emailAddress);
-      alert("Email address copied.");
+      setStatus("Email address copied.");
     } catch {
       setStatus(`Email: ${emailAddress}`);
     }
   };
 
   return (
-    <motion.section
+    <section
       className="px-6 py-23 md:px-4 md:py-16"
       id="contact"
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{
-        once: true,
-        amount: 0.2,
-      }}
+      aria-labelledby="contact-title"
     >
       <div className="shell">
-        <motion.div variants={fadeUp} className="section-heading">
-          <p className="eyebrow-label">Contact</p>
-          <h2 className="heading-lg">Tell me what you are building.</h2>
-          <p className="mt-4 text-muted">
-            Use the form to prepare an email, or reach me directly through the
-            links below.
-          </p>
-        </motion.div>
-
-        <motion.div
-          variants={fadeUp}
-          className="card-surface grid grid-cols-1 overflow-hidden md:grid-cols-[minmax(240px,0.65fr)_minmax(0,1fr)]"
+        <motion.header
+          variants={createRevealVariants(prefersReducedMotion)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-9 border-b border-line pb-7"
         >
-          <motion.aside
-            variants={slideLeft}
-            className="grid content-center gap-6 bg-surface-2 p-[22px] text-left md:p-7"
-            aria-label="Contact details"
+          <p className="eyebrow-label">Contact</p>
+          <h1
+            id="contact-title"
+            className="max-w-3xl text-4xl leading-tight font-bold text-white"
           >
-            <div>
-              <h3 className="m-0 text-[1.55rem] text-white">Email</h3>
-              <a
-                href={`mailto:${emailAddress}`}
-                className="text-accent no-underline break-words"
-              >
-                {emailAddress}
-              </a>
-            </div>
-            <div>
-              <h3 className="m-0 text-[1.55rem] text-white">Phone</h3>
-              <a
-                href={`tel:${phoneNumber}`}
-                className="text-accent no-underline break-words"
-              >
-                +63 931 785 2852
-              </a>
-            </div>
-            <div>
-              <h3 className="m-0 text-[1.55rem] text-white">Location</h3>
-              <p className="text-muted">Balidbid, Santa Fe, Cebu</p>
-            </div>
-            <motion.button
-              type="button"
-              className="btn-secondary justify-self-start"
-              whileHover={{
-                y: -3,
-                scale: 1.04,
-              }}
-              whileTap={{
-                scale: 0.95,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-              }}
-              className="btn-secondary justify-self-start"
-              onClick={copyEmail}
+            Have a project in mind?
+            <span className="block text-accent">Let’s talk.</span>
+          </h1>
+          <p className="mt-4 max-w-xl leading-relaxed text-muted">
+            Send a note about what you’re working on, or reach out through one
+            of the contact options below.
+          </p>
+        </motion.header>
+
+        <div className="grid items-start gap-5 lg:grid-cols-[minmax(260px,0.78fr)_minmax(0,1.22fr)]">
+          <motion.aside
+            variants={createRevealVariants(prefersReducedMotion)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            aria-labelledby="direct-contact-title"
+            className="rounded-2xl border border-line bg-surface/65 p-4 sm:p-5"
+          >
+            <p className="eyebrow-label">Get in touch</p>
+            <h2
+              id="direct-contact-title"
+              className="text-xl font-bold text-white"
             >
-              Copy Email
-            </motion.button>
-          </motion.aside>
+              Direct contact
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Prefer to reach out directly? Choose whichever works for you.
+            </p>
 
-          <motion.div variants={slideRight} className="p-[22px] md:p-7">
-            <form
-              action="https://formsubmit.co/d1d5c1f790f0b5f5d01f1daffc70c5bd "
-              noValidate
-              method="POST"
-              className="grid gap-2.5 text-left"
-              onSubmit={handleSubmit}
-            >
-              <label htmlFor="name" className="font-extrabold text-white">
-                Name
-              </label>
-              <motion.input
-                whileFocus={{
-                  scale: 1.01,
-                  borderColor: "#22d3ee",
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-                id="name"
-                type="text"
-                className={inputClass}
-                name="name"
-                placeholder="Your name"
-                value={form.name}
-                onChange={updateField}
-                aria-invalid={Boolean(errors.name)}
-                aria-describedby={errors.name ? "name-error" : undefined}
-              />
-              {errors.name && (
-                <span className="text-[0.88rem] text-danger" id="name-error">
-                  {errors.name}
-                </span>
-              )}
+            <div className="mt-5 space-y-2.5">
+              {contactMethods.map((method) => {
+                const Icon = method.icon;
+                const content = (
+                  <>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-line bg-canvas text-accent">
+                      <Icon size={18} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block font-mono text-[0.68rem] tracking-[0.08em] text-muted uppercase">
+                        {method.label}
+                      </span>
+                      <span className="mt-1 block break-words text-sm text-text">
+                        {method.value}
+                      </span>
+                    </span>
+                  </>
+                );
 
-              <label htmlFor="email" className="font-extrabold text-white">
-                Email
-              </label>
-              <motion.input
-                whileFocus={{
-                  scale: 1.01,
-                  borderColor: "#22d3ee",
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-                id="email"
-                type="email"
-                className={inputClass}
-                name="email"
-                placeholder="yourEmail@gmail.com"
-                value={form.email}
-                onChange={updateField}
-                aria-invalid={Boolean(errors.email)}
-                aria-describedby={errors.email ? "email-error" : undefined}
-              />
-              {errors.email && (
-                <span className="text-[0.88rem] text-danger" id="email-error">
-                  {errors.email}
-                </span>
-              )}
+                return method.href ? (
+                  <a
+                    key={method.label}
+                    href={method.href}
+                    className="flex min-w-0 items-center gap-3 rounded-xl border border-transparent p-2 transition-colors hover:border-line hover:bg-surface-2"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div
+                    key={method.label}
+                    className="flex min-w-0 items-center gap-3 rounded-xl p-2"
+                  >
+                    {content}
+                  </div>
+                );
+              })}
+            </div>
 
-              <label htmlFor="message" className="font-extrabold text-white">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={7}
-                placeholder="Your message here..."
-                name="message"
-                className={inputClass}
-                value={form.message}
-                onChange={updateField}
-                aria-invalid={Boolean(errors.message)}
-                aria-describedby={errors.message ? "message-error" : undefined}
-              />
-              {errors.message && (
-                <span className="text-[0.88rem] text-danger" id="message-error">
-                  {errors.message}
-                </span>
-              )}
-
-              <motion.button
-                type="submit"
-                className="btn-primary w-full"
-                whileHover={{
-                  y: -3,
-                  scale: 1.03,
-                }}
-                whileTap={{
-                  scale: 0.96,
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                }}
-              >
-                Send Message
-              </motion.button>
-
-              <p
-                className="min-h-[22px] text-[0.88rem] text-support"
-                aria-live="polite"
-              >
-                {status}
+            <div className="mt-5 border-t border-line pt-4">
+              <p className="font-mono text-[0.68rem] tracking-[0.08em] text-muted uppercase">
+                Find me elsewhere
               </p>
-
-              <div
-                className="grid grid-cols-[1fr_auto_1fr] items-center gap-2.5 text-[0.88rem] text-muted"
-                aria-hidden="true"
-              >
-                <hr className="w-full border-0 border-t border-line" />
-                <span>Or via</span>
-                <hr className="w-full border-0 border-t border-line" />
-              </div>
-
-              <div className="flex items-center justify-center gap-2.5">
-                {contactLinks.map((link) => (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {socialLinks.map((link) => (
                   <motion.a
-                    variants={socialItem}
                     key={link.label}
-                    whileHover={{
-                      y: -6,
-                      scale: 1.12,
-                      rotate: 5,
-                    }}
-                    whileTap={{
-                      scale: 0.9,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 15,
-                    }}
-                    className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-line bg-surface-2 transition duration-150 hover:-translate-y-0.5 hover:border-accent/45"
                     href={link.href}
                     aria-label={link.label}
+                    title={link.label}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
-                    rel={
-                      link.href.startsWith("http") ? "noreferrer" : undefined
-                    }
+                    rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-line bg-canvas transition-colors hover:border-accent/60"
                   >
                     <img
                       src={link.icon}
                       alt=""
                       aria-hidden="true"
-                      className="h-5 w-5 invert"
+                      className="h-[18px] w-[18px] invert"
                     />
                   </motion.a>
                 ))}
               </div>
+            </div>
+
+            <button
+              type="button"
+              className="btn-secondary mt-4 w-full"
+              onClick={copyEmail}
+            >
+              Copy email address
+            </button>
+          </motion.aside>
+
+          <motion.div
+            variants={createRevealVariants(prefersReducedMotion, 0.08)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.12 }}
+            className="rounded-2xl border border-line bg-surface/65 p-4 sm:p-6"
+          >
+            <div className="mb-5">
+              <h2 className="text-xl font-bold text-white">
+                Send me a message
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                Submitting opens your email app with the message ready to send.
+              </p>
+            </div>
+
+            <form
+              noValidate
+              className="grid gap-4 text-left"
+              onSubmit={handleSubmit}
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid content-start gap-2">
+                  <label htmlFor="name" className="text-sm font-semibold text-text">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    autoComplete="name"
+                    className={inputClass}
+                    name="name"
+                    placeholder="Your name"
+                    value={form.name}
+                    onChange={updateField}
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                  />
+                  {errors.name && (
+                    <span className="text-sm text-danger" id="name-error">
+                      {errors.name}
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid content-start gap-2">
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-semibold text-text"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    className={inputClass}
+                    name="email"
+                    placeholder="you@example.com"
+                    value={form.email}
+                    onChange={updateField}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                  />
+                  {errors.email && (
+                    <span className="text-sm text-danger" id="email-error">
+                      {errors.email}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid gap-2">
+                <label
+                  htmlFor="message"
+                  className="text-sm font-semibold text-text"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows={6}
+                  placeholder="What would you like to talk about?"
+                  name="message"
+                  className={`${inputClass} resize-y`}
+                  value={form.message}
+                  onChange={updateField}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={
+                    errors.message ? "message-error" : undefined
+                  }
+                />
+                {errors.message && (
+                  <span className="text-sm text-danger" id="message-error">
+                    {errors.message}
+                  </span>
+                )}
+              </div>
+
+              <button type="submit" className="btn-primary w-full">
+                Prepare email
+                <i className="bi bi-arrow-up-right ml-2" aria-hidden="true" />
+              </button>
+
+              <p
+                className="min-h-5 text-sm text-support"
+                aria-live="polite"
+                role="status"
+              >
+                {status}
+              </p>
             </form>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

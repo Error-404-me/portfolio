@@ -1,6 +1,4 @@
-import { href } from "react-router-dom";
 import PortfolioImg from "../assets/portfoilioImage/portfolioImage-removebg.png";
-import PortfolioImgPng from "../assets/img/portfolio.png";
 import TravelGuideImg from "../assets/img/travel_guide.png";
 
 //Eggcubator images imports
@@ -136,7 +134,7 @@ export const projects = [
     ],
     links: [
       { label: "Discuss this project", href: "#contact" },
-      { label: "Live link", href: "https://saricart.vercel.app" },
+      { label: "Visit live site", href: "https://saricart.vercel.app" },
     ],
     role: "Full-Stack Developer",
     projectType: "Personal Project",
@@ -346,8 +344,11 @@ export const projects = [
       "Can preview or download resume.",
     ],
     links: [
-      { label: "Open section", href: "#home" },
-      { label: "GitHub profile", href: "https://github.com/Error-404-me" },
+      { label: "View portfolio homepage", href: "#home" },
+      {
+        label: "View source on GitHub",
+        href: "https://github.com/Error-404-me",
+      },
     ],
     role: null,
     projectType: null,
@@ -404,7 +405,10 @@ export const projects = [
     ],
     links: [
       { label: "Discuss this project", href: "#contact" },
-      { label: "Live link", href: "https://myexpensestracker.up.railway.app/" },
+      {
+        label: "Visit live site",
+        href: "https://myexpensestracker.up.railway.app/",
+      },
     ],
     role: null,
     projectType: null,

@@ -1,25 +1,24 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 function PageTransition({ children }) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <motion.div
       initial={{
-        opacity: 0,
-        y: 20,
-        filter: "blur(8px)",
+        opacity: prefersReducedMotion ? 1 : 0,
+        filter: prefersReducedMotion ? "blur(0px)" : "blur(4px)",
       }}
       animate={{
         opacity: 1,
-        y: 0,
         filter: "blur(0px)",
       }}
       exit={{
-        opacity: 0,
-        y: -20,
-        filter: "blur(8px)",
+        opacity: prefersReducedMotion ? 1 : 0,
+        filter: prefersReducedMotion ? "blur(0px)" : "blur(4px)",
       }}
       transition={{
-        duration: 0.4,
+        duration: prefersReducedMotion ? 0 : 0.24,
         ease: "easeInOut",
       }}
     >

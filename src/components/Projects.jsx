@@ -1,227 +1,237 @@
-// src/components/Projects.jsx
 import { useNavigate } from "react-router-dom";
 import { projects } from "../assets/projects";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
-const MAX_VISIBLE_TAGS = 4;
+const MAX_VISIBLE_TAGS = 3;
 
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.15,
+function getLiveLink(project) {
+  return project.links.find(
+    (link) =>
+      link.href.startsWith("http") && !/github/i.test(link.label),
+  );
+}
+
+function createRevealVariants(prefersReducedMotion, delay = 0) {
+  return {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      x: prefersReducedMotion ? 0 : 18,
     },
-  },
-};
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : 0.5,
+        delay: prefersReducedMotion ? 0 : delay,
+        ease: "easeOut",
+      },
     },
-  },
-};
-
-const cardHover = {
-  y: -8,
-  transition: {
-    type: "spring",
-    stiffness: 300,
-    damping: 20,
-  },
-};
+  };
+}
 
 function Projects() {
   const navigate = useNavigate();
+  const prefersReducedMotion = useReducedMotion();
+  const liveProjectCount = projects.filter(getLiveLink).length;
 
   return (
-    <motion.section
+    <section
       className="px-6 py-23 md:px-4 md:py-16"
       id="projects"
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{
-        once: true,
-        amount: 0.2,
-      }}
+      aria-labelledby="projects-title"
     >
       <div className="shell">
-        <motion.div variants={fadeUp} className="section-heading">
-          <p className="eyebrow-label">Projects</p>
-          <h2 className="heading-lg">Things I've built.</h2>
-          <p className="mt-4 text-muted">
-            A few real projects with the problem, the build, and the stack
-            behind each one — full details are one click away.
-          </p>
-        </motion.div>
+        <motion.header
+          variants={createRevealVariants(prefersReducedMotion)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-9 flex flex-col gap-6 border-b border-line pb-7 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div className="max-w-2xl">
+            <p className="eyebrow-label">Selected work</p>
+            <h1
+              id="projects-title"
+              className="text-4xl leading-tight font-bold text-white"
+            >
+              Ideas made real.
+              <span className="block text-accent">Built to be useful.</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-muted">
+              A timeline of the web, mobile, and IoT projects I have built and
+              explored.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project, index) => {
-            const coverImage = Array.isArray(project.image)
-              ? project.image[0]
-              : project.image;
-            const visibleTags = project.tags.slice(0, MAX_VISIBLE_TAGS);
-            const hiddenTagCount = project.tags.length - visibleTags.length;
-            const liveLink = project.links.find(
-              (link) =>
-                link.href.startsWith("http") && !/github/i.test(link.label),
-            );
-
-            return (
-              <motion.article
-                key={project.id}
-                variants={fadeUp}
-                whileHover={cardHover}
-                className="card-surface group grid grid-rows-[auto_1fr] overflow-hidden"
+          <div className="flex gap-3">
+            {[
+              { count: projects.length, label: "Projects" },
+              { count: liveProjectCount, label: "Live demos" },
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="min-w-0 flex-1 rounded-xl border border-line bg-surface px-4 py-3 sm:flex-none"
               >
-                <div className="relative aspect-[16/10] bg-surface-2 p-2.5">
-                  <span className="absolute top-2.5 left-2.5 z-10 rounded-full bg-canvas/60 px-2.5 py-0.5 font-mono text-[0.7rem] tracking-[0.06em] text-white">
-                    P.{String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div className="h-full w-full overflow-hidden rounded-md bg-surface-2">
-                    <motion.img
-                      src={coverImage}
-                      alt={`${project.title} screenshot`}
-                      className="h-full w-full object-contain object-top"
-                      whileHover={{
-                        scale: 1.08,
-                      }}
-                      transition={{
-                        duration: 0.4,
-                      }}
-                    />
-                  </div>
-                </div>
+                <p className="font-mono text-2xl font-bold text-accent">
+                  {String(stat.count).padStart(2, "0")}
+                </p>
+                <p className="mt-1 text-xs text-muted">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.header>
 
-                <div className="flex flex-col gap-3.5 p-5 text-left">
-                  <p className="font-mono text-[0.76rem] font-semibold tracking-[0.08em] text-warm uppercase">
-                    {project.type}
+        <div className="relative">
+          <div
+            aria-hidden="true"
+            className="absolute top-4 bottom-4 left-[9px] w-px bg-line md:left-[132px]"
+          />
+
+          <ol className="relative m-0 list-none space-y-4 p-0 md:space-y-5">
+            {projects.map((project, index) => {
+              const coverImage = Array.isArray(project.image)
+                ? project.image[0]
+                : project.image;
+              const visibleTags = project.tags.slice(0, MAX_VISIBLE_TAGS);
+              const hiddenTagCount = project.tags.length - visibleTags.length;
+              const liveLink = getLiveLink(project);
+
+              return (
+                <motion.li
+                  key={project.id}
+                  variants={createRevealVariants(
+                    prefersReducedMotion,
+                    (index % 3) * 0.08,
+                  )}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.12 }}
+                  className="relative grid grid-cols-[18px_minmax(0,1fr)] items-stretch gap-x-4 md:grid-cols-[100px_24px_minmax(0,1fr)] md:gap-x-5"
+                >
+                  <p className="hidden pt-5 text-right font-mono text-xs leading-5 text-muted md:block">
+                    {project.year ?? "Not dated"}
                   </p>
-                  <h3 className="text-lg font-bold text-white">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted line-clamp-3">
-                    {project.shortSummary ?? project.summary}
-                  </p>
-                  <div
-                    className="flex flex-wrap gap-2"
-                    aria-label={`${project.title} key technologies`}
-                  >
-                    {visibleTags.map((tag) => (
-                      <motion.span
-                        key={tag}
-                        className="tag-pill"
-                        whileHover={{
-                          y: -3,
-                          scale: 1.05,
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                        }}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                    {hiddenTagCount > 0 && (
-                      <span
-                        className="tag-pill text-muted"
-                        aria-label={`and ${hiddenTagCount} more technologies`}
-                      >
-                        +{hiddenTagCount}
-                      </span>
-                    )}
-                  </div>
 
-                  <div className="mt-auto flex flex-col gap-3">
-                    {(project.githubUrl || liveLink) && (
-                      <div
-                        className="flex items-center gap-2"
-                        aria-label={`${project.title} external links`}
-                      >
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${project.title} GitHub repository`}
-                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition duration-150 hover:border-accent hover:text-accent"
-                          >
-                            <i className="bi bi-github" aria-hidden="true"></i>
-                          </a>
-                        )}
-                        {liveLink && (
-                          <a
-                            href={liveLink.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${project.title} live demo`}
-                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-muted transition duration-150 hover:border-accent hover:text-accent"
-                          >
-                            <i
-                              className="bi bi-box-arrow-up-right"
-                              aria-hidden="true"
-                            ></i>
-                          </a>
-                        )}
-                      </div>
-                    )}
-
-                    <motion.button
-                      type="button"
-                      className="btn-secondary w-full"
-                      onClick={() => navigate(`/project/${project.id}`)}
-                      whileHover={{
-                        scale: 1.03,
-                      }}
-                      whileTap={{
-                        scale: 0.95,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                      }}
+                  <div className="relative z-10 flex justify-center pt-5">
+                    <span
+                      className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
+                        project.status === "Production"
+                          ? "border-accent bg-canvas shadow-[0_0_14px_rgba(199,244,100,0.28)]"
+                          : "border-line bg-surface"
+                      }`}
                     >
-                      View Details
-                    </motion.button>
+                      {project.status === "Production" && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                      )}
+                    </span>
                   </div>
-                </div>
-              </motion.article>
-            );
-          })}
+
+                  <motion.article
+                    whileHover={{ borderColor: "#c7f464" }}
+                    className="group min-w-0 overflow-hidden rounded-2xl border border-line bg-surface/75 transition-colors duration-300"
+                  >
+                    <div className="grid min-w-0 lg:grid-cols-[minmax(220px,0.75fr)_minmax(0,1.25fr)]">
+                      <div className="relative h-48 overflow-hidden bg-surface-2 p-2.5 lg:h-[250px]">
+                        <span className="absolute top-4 left-4 z-10 rounded-full border border-line bg-canvas/85 px-2.5 py-1 font-mono text-[0.68rem] tracking-[0.06em] text-white backdrop-blur">
+                          P.{String(index + 1).padStart(2, "0")}
+                        </span>
+                        <div className="h-full overflow-hidden rounded-xl bg-canvas/40">
+                          <motion.img
+                            src={coverImage}
+                            alt={`${project.title} project preview`}
+                            className="h-full w-full object-contain object-top"
+                            whileHover={{ scale: 1.04 }}
+                            transition={{ duration: 0.35, ease: "easeOut" }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex min-w-0 flex-col gap-4 p-4 sm:p-5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-mono text-[0.68rem] font-semibold tracking-[0.1em] text-accent uppercase">
+                            {project.projectType ?? project.type}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {project.year && (
+                              <span className="rounded-full border border-line bg-canvas px-2.5 py-1 font-mono text-[0.68rem] text-muted md:hidden">
+                                {project.year}
+                              </span>
+                            )}
+                            {project.status && (
+                              <span className="rounded-full border border-accent/30 bg-accent/5 px-2.5 py-1 font-mono text-[0.68rem] text-accent">
+                                {project.status}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h2 className="text-xl leading-snug font-bold text-white">
+                            {project.title}
+                          </h2>
+                          <p className="mt-2 text-sm leading-relaxed text-muted">
+                            {project.shortSummary ?? project.summary}
+                          </p>
+                        </div>
+
+                        <div
+                          className="flex flex-wrap gap-2"
+                          aria-label={`${project.title} key technologies`}
+                        >
+                          {visibleTags.map((tag) => (
+                            <span key={tag} className="tag-pill">
+                              {tag}
+                            </span>
+                          ))}
+                          {hiddenTagCount > 0 && (
+                            <span
+                              className="tag-pill text-muted"
+                              aria-label={`and ${hiddenTagCount} more technologies`}
+                            >
+                              +{hiddenTagCount}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="mt-auto flex items-center gap-2 border-t border-line pt-4">
+                          {liveLink && (
+                            <a
+                              href={liveLink.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label={`${project.title} live demo`}
+                              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                            >
+                              <i
+                                className="bi bi-box-arrow-up-right"
+                                aria-hidden="true"
+                              />
+                            </a>
+                          )}
+                          <motion.button
+                            type="button"
+                            className="btn-secondary min-w-0 flex-1"
+                            onClick={() => navigate(`/project/${project.id}`)}
+                            whileTap={{ scale: 0.97 }}
+                            transition={{ duration: 0.15 }}
+                          >
+                            View project details
+                            <i
+                              className="bi bi-arrow-up-right ml-2"
+                              aria-hidden="true"
+                            />
+                          </motion.button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.article>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
       </div>
-
-      <div className="mt-12 flex items-center justify-center">
-        <motion.button
-          whileHover={{
-            y: -4,
-            scale: 1.05,
-          }}
-          whileTap={{
-            scale: 0.95,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-          }}
-          type="button"
-          className="btn-primary"
-          onClick={() => navigate("/projects")}
-        >
-          See More
-          <i className="bi bi-arrow-right ml-2.5"></i>
-        </motion.button>
-      </div>
-    </motion.section>
+    </section>
   );
 }
 

@@ -1,207 +1,182 @@
-// src/components/About.jsx
-import { Link } from "react-router-dom";
-import profileImage from "../assets/img/5f10c3cf-1a72-4049-802e-2a5ef6c7e4bc_removalai_preview.png";
-import { skillCategories } from "../assets/skills";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import profileImage from "../assets/img/1-11r_t.png";
 
-const strengths = [
-  "Adaptable",
-  "Detail-focused",
-  "Curious",
-  "Reliable",
-  "Resourceful",
+const profileFields = [
+  { label: "Currently", value: "Open to opportunities" },
+  { label: "Focus", value: "Software development" },
+  { label: "Based in", value: "Philippines" },
 ];
 
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.15,
-    },
+const strengthDetails = [
+  {
+    name: "Adaptable",
+    detail:
+      "Comfortable moving between hardware and software, or learning a new stack along the way.",
   },
-};
+  {
+    name: "Detail-focused",
+    detail:
+      "I care about the small things—from edge cases to the details that make an interface feel right.",
+  },
+  {
+    name: "Curious",
+    detail:
+      "When I want to understand how something works, I enjoy exploring it and figuring it out.",
+  },
+  {
+    name: "Reliable",
+    detail:
+      "I value clear communication and following through on what I take on.",
+  },
+  {
+    name: "Resourceful",
+    detail:
+      "I work with what is available and look for practical ways forward.",
+  },
+];
 
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
+function createRevealVariants(prefersReducedMotion, delay = 0) {
+  return {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : 12,
     },
-  },
-};
-
-const slideLeft = {
-  hidden: {
-    opacity: 0,
-    x: -50,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : 0.45,
+        delay: prefersReducedMotion ? 0 : delay,
+        ease: "easeOut",
+      },
     },
-  },
-};
-
-const slideRight = {
-  hidden: {
-    opacity: 0,
-    x: 50,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
-  },
-};
+  };
+}
 
 function About() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <motion.section
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{
-        once: true,
-        amount: 0.25,
-      }}
+    <section
       className="px-6 py-23 md:px-4 md:py-16"
       id="about"
+      aria-labelledby="about-title"
     >
       <div className="shell">
-        <motion.div variants={fadeUp} className="section-heading">
-          <p className="eyebrow-label">About Me</p>
-          <h2 className="heading-lg">
-            Building useful things while learning deeply.
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 items-center gap-11 lg:grid-cols-[minmax(260px,0.8fr)_minmax(0,1fr)]">
-          <motion.figure
-            variants={slideLeft}
-            whileHover={{
-              scale: 1.02,
-            }}
-            transition={{
-              type: "spring",
-              stiffness: 250,
-            }}
-            className="m-0 overflow-hidden rounded-lg border border-line bg-surface"
+        <motion.header
+          variants={createRevealVariants(prefersReducedMotion)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-9 border-b border-line pb-7"
+        >
+          <p className="eyebrow-label">About me</p>
+          <h1
+            id="about-title"
+            className="max-w-3xl text-4xl leading-tight font-bold text-white"
           >
-            <motion.img
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="h-full min-h-[320px] w-full object-cover object-top md:min-h-[420px]"
+            I like turning ideas into
+            <span className="text-accent"> working projects.</span>
+          </h1>
+        </motion.header>
+
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.82fr)] lg:gap-12">
+          <motion.div
+            variants={createRevealVariants(prefersReducedMotion)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            className="min-w-0"
+          >
+            <p className="text-base leading-relaxed text-text">
+              I enjoy building things that are useful, whether that means
+              creating a website, shaping an interface, or connecting software
+              and hardware.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-muted">
+              I’m a Computer Engineering student at the University of Cebu,
+              currently developing my skills in React, JavaScript, Python, and
+              UI design through personal and academic projects. I’m open to
+              junior or freelance opportunities where I can contribute and keep
+              learning.
+            </p>
+
+            <dl className="mt-7 divide-y divide-line border-y rounded-xl border border-line bg-surface/60 p-4">
+              {profileFields.map((field) => (
+                <div
+                  className="flex flex-wrap gap-x-6 gap-y-1 py-3 sm:grid sm:grid-cols-[110px_minmax(0,1fr)] "
+                  key={field.label}
+                >
+                  <dt className="font-mono text-xs text-muted">
+                    {field.label}
+                  </dt>
+                  <dd className="m-0 text-sm text-text">{field.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </motion.div>
+
+          <motion.figure
+            variants={createRevealVariants(prefersReducedMotion, 0.08)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.15 }}
+            className="m-0 flex h-[min(72svh,680px)] min-h-[320px] items-end justify-center overflow-hidden rounded-2xl border border-line bg-surface/40"
+          >
+            <img
+              className="block h-full w-full object-contain scale-117"
               src={profileImage}
-              alt="Argie Pasuquin working on a development project"
+              alt="Argie Pasuquin"
             />
           </motion.figure>
-
-          <motion.div variants={slideRight} className="min-w-0 text-left">
-            <h3 className="m-0 text-[1.55rem] text-white">Get to know me</h3>
-            <p className="mt-4.5 text-muted">
-              I like turning ideas into working projects, whether that means
-              designing a website, writing front-end code, or connecting
-              software and hardware so they can work together.
-            </p>
-            <p className="mt-4.5 text-muted">
-              I'm currently sharpening my React, JavaScript, Python, and
-              UI/design skills across full-stack and IoT projects, and I'm open
-              to freelance or junior opportunities where I can contribute, keep
-              learning, and grow with real projects.
-            </p>
-
-            <ul
-              className="my-6.5 flex list-none flex-wrap gap-2.5 p-0"
-              aria-label="Personal strengths"
-            >
-              {strengths.map((strength) => (
-                <motion.li
-                  key={strength}
-                  className="chip"
-                  whileHover={{
-                    y: -4,
-                    scale: 1.05,
-                  }}
-                  whileTap={{
-                    scale: 0.95,
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                  }}
-                >
-                  {strength}
-                </motion.li>
-              ))}
-            </ul>
-
-            <motion.div variants={fadeUp} className="w-[100%]">
-              <Link className="btn-primary w-[100%] md:w-auto" to="/moreAbout">
-                More About Me
-                <i className="bi bi-arrow-right ml-2.5"></i>
-              </Link>
-            </motion.div>
-          </motion.div>
         </div>
 
-        <div className="mt-20 pt-9">
-          <motion.div variants={fadeUp} className="mb-6 text-left">
-            <p className="eyebrow-label">My Skills</p>
-            <h3 className="heading-lg">Tools I am building with</h3>
-          </motion.div>
+        <section className="mt-14" aria-labelledby="working-style-title">
+          <motion.header
+            variants={createRevealVariants(prefersReducedMotion)}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"
+          >
+            <div>
+              <p className="eyebrow-label">How I work</p>
+              <h2
+                id="working-style-title"
+                className="text-2xl font-bold text-white"
+              >
+                What you can expect from me.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-relaxed text-muted">
+              A few habits I try to bring to each project and collaboration.
+            </p>
+          </motion.header>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            {skillCategories.map((group) => (
-              <motion.div key={group.category} variants={fadeUp}>
-                <p className="mb-2.5 font-mono text-[0.72rem] tracking-[0.08em] text-cyan uppercase">
-                  {group.category}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {strengthDetails.map((strength, index) => (
+              <motion.article
+                key={strength.name}
+                variants={createRevealVariants(
+                  prefersReducedMotion,
+                  (index % 3) * 0.06,
+                )}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.15 }}
+                whileHover={{ borderColor: "#c7f464" }}
+                className="rounded-xl border border-line bg-surface/60 p-4 transition-colors duration-300"
+              >
+                <h3 className="font-semibold text-white">{strength.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {strength.detail}
                 </p>
-                <ul
-                  className="flex list-none flex-wrap gap-2 p-0"
-                  aria-label={`${group.category} skills`}
-                >
-                  {group.items.map((item) => (
-                    <motion.li
-                      key={item}
-                      className="chip"
-                      whileHover={{
-                        y: -4,
-                        scale: 1.06,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 18,
-                      }}
-                    >
-                      {item}
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-        </div>
+        </section>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

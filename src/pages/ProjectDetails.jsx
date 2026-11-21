@@ -1,6 +1,5 @@
-// src/pages/ProjectDetails.jsx
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { projects } from "../assets/projects";
 import { categorizeTechnologies } from "../utils/techCategories";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
@@ -157,7 +156,7 @@ function ProjectGallery({ images, title, captions = [] }) {
             aria-label="Previous screenshot"
             whileHover={{ scale: 1.08, x: -2 }}
             whileTap={{ scale: 0.92 }}
-            className="absolute left-5 top-1/2 z-30 -translate-y-1/2 rounded-full border border-line bg-black/50 p-3 text-white opacity-0 backdrop-blur-xl transition-all duration-300 group-hover:opacity-100 hover:border-accent hover:bg-accent/20"
+            className="absolute left-5 top-1/2 z-30 -translate-y-1/2 rounded-full border border-line bg-black/50 p-3 text-white opacity-100 backdrop-blur-xl transition-all duration-300 hover:border-accent hover:bg-accent/20 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
           >
             <i className="bi bi-chevron-left text-xl"></i>
           </motion.button>
@@ -168,7 +167,7 @@ function ProjectGallery({ images, title, captions = [] }) {
             aria-label="Next screenshot"
             whileHover={{ scale: 1.08, x: 2 }}
             whileTap={{ scale: 0.92 }}
-            className="absolute right-5 top-1/2 z-30 -translate-y-1/2 rounded-full border border-line bg-black/50 p-3 text-white opacity-0 backdrop-blur-xl transition-all duration-300 group-hover:opacity-100 hover:border-accent hover:bg-accent/20"
+            className="absolute right-5 top-1/2 z-30 -translate-y-1/2 rounded-full border border-line bg-black/50 p-3 text-white opacity-100 backdrop-blur-xl transition-all duration-300 hover:border-accent hover:bg-accent/20 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
           >
             <i className="bi bi-chevron-right text-xl"></i>
           </motion.button>
@@ -281,7 +280,6 @@ function ProjectGallery({ images, title, captions = [] }) {
 
 function ProjectDetails() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const project = projects.find((item) => item.id === id);
 
   useEffect(() => {
@@ -308,13 +306,9 @@ function ProjectDetails() {
           <p className="mb-6 text-muted">
             We couldn't find the project you're looking for.
           </p>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => navigate("/")}
-          >
-            Back to home
-          </button>
+          <Link to="/projects" className="btn-secondary">
+            Browse projects
+          </Link>
         </div>
       </motion.section>
     );
@@ -337,24 +331,22 @@ function ProjectDetails() {
   const techGroups = categorizeTechnologies(project.tags);
 
   const ctaLinks = [
-    ...project.links,
+    ...project.links.filter((link) => /^https?:\/\//i.test(link.href)),
     ...(project.githubUrl
-      ? [{ label: "GitHub", href: project.githubUrl }]
+      ? [{ label: "View source on GitHub", href: project.githubUrl }]
       : []),
+    ...project.links.filter((link) => !/^https?:\/\//i.test(link.href)),
   ];
 
   return (
-    <section className="min-h-screen bg-canvas [background-image:radial-gradient(var(--color-line)_1px,transparent_1px)] bg-[length:22px_22px]">
-      <motion.button
-        whileHover={{ x: -5, scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        type="button"
-        aria-label="Close project details"
-        className="sticky top-2.5 right-2.5 z-[9999] ml-auto flex animate-fade-up animate-pulse-glow items-center gap-2 rounded-full border border-line bg-canvas px-4 py-2 font-mono text-[0.78rem] tracking-[0.08em] text-muted uppercase transition duration-200 [animation-delay:500ms] hover:-translate-x-[3px] hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-        onClick={() => navigate(-1)}
+    <div className="min-h-screen bg-canvas [background-image:radial-gradient(var(--color-line)_1px,transparent_1px)] bg-[length:22px_22px]">
+      <Link
+        to="/projects"
+        className="sticky top-2.5 left-2.5 z-30 ml-auto inline-flex items-center gap-2 rounded-full border border-line bg-canvas/90 px-4 py-2 font-mono text-xs tracking-[0.04em] text-muted transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
       >
-        <i className="bi bi-x-lg text-[0.85rem]"></i>
-      </motion.button>
+        <i className="bi bi-arrow-left" aria-hidden="true" />
+        Back to projects
+      </Link>
 
       <div className="relative mx-auto flex max-w-[1200px] flex-col rounded-[20px] p-[clamp(1.5rem,4vw,3rem)]">
         <motion.div
@@ -387,193 +379,190 @@ function ProjectDetails() {
           </motion.dl>
         )}
 
-        {images.length > 0 && (
-          <ProjectGallery
-            images={images}
-            title={project.title}
-            captions={project.screenshotCaptions}
-          />
-        )}
-
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="mb-7 max-w-[1200px] text-[1.05rem] leading-[1.7] text-muted"
-        >
-          {project.summary}
-        </motion.p>
-
-        {/* <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-          Highlights
-        </h3>
-        <motion.ul
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="mb-9 grid list-none gap-2.5 p-0"
-        >
-          {project.highlights.map((highlight) => (
-            <motion.li
-              key={highlight}
-              variants={fadeUp}
-              className="relative pl-6 leading-[1.55] text-text before:absolute before:top-[0.5em] before:left-0 before:h-2 before:w-2 before:rotate-45 before:rounded-sm before:bg-accent before:content-['']"
+        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.9fr)]">
+          {images.length > 0 && (
+            <aside
+              aria-label={`${project.title} screenshot gallery`}
+              className="mb-8 min-w-0 lg:order-2 lg:sticky lg:top-16 lg:mb-0 lg:self-start"
             >
-              {highlight}
-            </motion.li>
-          ))}
-        </motion.ul> */}
+              <ProjectGallery
+                images={images}
+                title={project.title}
+                captions={project.screenshotCaptions}
+              />
+            </aside>
+          )}
 
-        {(project.role || project.responsibilities?.length > 0) && (
-          <div className="mb-9">
-            <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-              My Role
-            </h3>
-            {project.role && (
-              <p className="mb-3 text-[1.05rem] font-semibold text-white">
-                {project.role}
-              </p>
-            )}
-            {project.responsibilities?.length > 0 && (
-              <ul className="grid list-none gap-2.5 p-0">
-                {project.responsibilities.map((item) => (
-                  <li
-                    key={item}
-                    className="relative pl-6 leading-[1.55] text-text before:absolute before:top-[0.5em] before:left-0 before:h-2 before:w-2 before:rotate-45 before:rounded-sm before:bg-accent before:content-['']"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
+          <div className="min-w-0 lg:order-1">
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="mb-7 max-w-[1200px] text-[1.05rem] leading-[1.7] text-muted"
+            >
+              {project.summary}
+            </motion.p>
 
-        {project.features?.length > 0 && (
-          <div className="mb-9">
-            <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-              Key Features
-            </h3>
-            <ul className="grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2">
-              {project.features.map((feature) => (
-                <li
-                  key={feature}
-                  className="relative pl-6 leading-[1.55] text-text before:absolute before:top-[0.5em] before:left-0 before:h-2 before:w-2 before:rotate-45 before:rounded-sm before:bg-cyan before:content-['']"
-                >
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {project.challenges?.length > 0 && (
-          <div className="mb-9">
-            <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-              Engineering Challenges
-            </h3>
-            <div className="grid gap-4">
-              {project.challenges.map((challenge) => (
-                <div
-                  key={challenge.problem}
-                  className="rounded-xl border border-line bg-surface-2 p-4.5"
-                >
-                  <p className="mb-1.5 font-semibold text-accent">
-                    {challenge.problem}
+            {(project.role || project.responsibilities?.length > 0) && (
+              <div className="mb-9">
+                <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
+                  My Role
+                </h3>
+                {project.role && (
+                  <p className="mb-3 text-[1.05rem] font-semibold text-white">
+                    {project.role}
                   </p>
-                  <p className="text-[0.92rem] leading-[1.6] text-muted">
-                    {challenge.solution}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+                )}
+                {project.responsibilities?.length > 0 && (
+                  <ul className="grid list-none gap-2.5 p-0">
+                    {project.responsibilities.map((item) => (
+                      <li
+                        key={item}
+                        className="relative pl-6 leading-[1.55] text-text before:absolute before:top-[0.5em] before:left-0 before:h-2 before:w-2 before:rotate-45 before:rounded-sm before:bg-accent before:content-['']"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
 
-        {project.architecture?.length > 0 && (
-          <div className="mb-9">
-            <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-              System Architecture
-            </h3>
-            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-line bg-surface-2 p-4.5">
-              {project.architecture.map((layer, index) => (
-                <div key={layer} className="flex items-center gap-2">
-                  <span className="rounded-lg border border-line bg-surface px-3 py-2 font-mono text-[0.82rem] text-text">
-                    {layer}
-                  </span>
-                  {index < project.architecture.length - 1 && (
-                    <i
-                      className="bi bi-arrow-right text-muted"
-                      aria-hidden="true"
-                    ></i>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="mb-8">
-          <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
-            Tech Stack
-          </h3>
-          <div
-            className="grid gap-5 sm:grid-cols-2"
-            aria-label="Project technologies"
-          >
-            {techGroups.map((group) => (
-              <div key={group.category}>
-                <p className="mb-2 font-mono text-[0.68rem] tracking-[0.08em] text-cyan uppercase">
-                  {group.category}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {group.items.map((tag) => (
-                    <motion.span
-                      key={tag}
-                      variants={scaleIn}
-                      initial="hidden"
-                      animate="show"
-                      whileHover={{ y: -4, scale: 1.08 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="tag-pill"
+            {project.features?.length > 0 && (
+              <div className="mb-9">
+                <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
+                  Key Features
+                </h3>
+                <ul className="grid list-none grid-cols-1 gap-2.5 p-0 sm:grid-cols-2">
+                  {project.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="relative pl-6 leading-[1.55] text-text before:absolute before:top-[0.5em] before:left-0 before:h-2 before:w-2 before:rotate-45 before:rounded-sm before:bg-accent before:content-['']"
                     >
-                      {tag}
-                    </motion.span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {project.challenges?.length > 0 && (
+              <div className="mb-9">
+                <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
+                  Engineering Challenges
+                </h3>
+                <div className="grid gap-4">
+                  {project.challenges.map((challenge) => (
+                    <div
+                      key={challenge.problem}
+                      className="rounded-xl border border-line bg-surface-2 p-4.5"
+                    >
+                      <p className="mb-1.5 font-semibold text-accent">
+                        {challenge.problem}
+                      </p>
+                      <p className="text-[0.92rem] leading-[1.6] text-muted">
+                        {challenge.solution}
+                      </p>
+                    </div>
                   ))}
                 </div>
               </div>
-            ))}
+            )}
+
+            {project.architecture?.length > 0 && (
+              <div className="mb-9">
+                <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
+                  System Architecture
+                </h3>
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-line bg-surface-2 p-4.5">
+                  {project.architecture.map((layer, index) => (
+                    <div key={layer} className="flex items-center gap-2">
+                      <span className="rounded-lg border border-line bg-surface px-3 py-2 font-mono text-[0.82rem] text-text">
+                        {layer}
+                      </span>
+                      {index < project.architecture.length - 1 && (
+                        <i
+                          className="bi bi-arrow-right text-muted"
+                          aria-hidden="true"
+                        ></i>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mb-8">
+              <h3 className="mb-3.5 font-mono text-[0.78rem] tracking-[0.1em] text-muted uppercase">
+                Tech Stack
+              </h3>
+              <div
+                className="grid gap-5 sm:grid-cols-2"
+                aria-label="Project technologies"
+              >
+                {techGroups.map((group) => (
+                  <div key={group.category}>
+                    <p className="mb-2 font-mono text-[0.68rem] tracking-[0.08em] text-cyan uppercase">
+                      {group.category}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {group.items.map((tag) => (
+                        <motion.span
+                          key={tag}
+                          variants={scaleIn}
+                          initial="hidden"
+                          animate="show"
+                          whileHover={{ y: -4, scale: 1.08 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                          className="tag-pill"
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 pt-6 sm:flex-row">
+              {ctaLinks.map((link) => {
+                const isExternal = /^https?:\/\//i.test(link.href);
+                const destination =
+                  link.href === "#contact" ? "/contact" : `/${link.href}`;
+                const className = isExternal
+                  ? "btn-primary w-full sm:w-auto"
+                  : "btn-secondary w-full sm:w-auto";
+
+                return isExternal ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={className}
+                  >
+                    {link.label}
+                    <i
+                      className="bi bi-arrow-up-right ml-2.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ) : (
+                  <Link key={link.label} to={destination} className={className}>
+                    {link.label}
+                    <i
+                      className="bi bi-arrow-right ml-2.5"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
-
-        <div className="flex flex-wrap flex-col gap-3 pt-6 justify-end md:flex-row">
-          {ctaLinks.map((link) =>
-            link.href.startsWith("http") ? (
-              <motion.a
-                whileHover={{ y: -4, scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-center rounded-lg bg-accent px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-canvas no-underline transition duration-150 hover:-translate-y-0.5 hover:bg-cyan focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-              >
-                {link.label}
-              </motion.a>
-            ) : (
-              <Link
-                key={link.label}
-                to={`/${link.href}`}
-                className="flex items-center justify-center rounded-lg bg-accent px-[1.15rem] py-2.5 text-[0.9rem] font-semibold text-canvas no-underline transition duration-150 hover:-translate-y-0.5 hover:bg-cyan focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
-              >
-                {link.label}
-              </Link>
-            ),
-          )}
-        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
